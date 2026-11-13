@@ -1,0 +1,120 @@
+{
+  "meta": {
+    "title": "Romain Piau · Developer",
+    "description": "My portfolio: desktop apps, developer tools and open source projects.",
+    "ogLocale": "en_US"
+  },
+  "nav": {
+    "home": "Home",
+    "label": "Main navigation",
+    "projects": "Projects",
+    "repos": "Repositories",
+    "stack": "Stack",
+    "contact": "Contact",
+    "language": "Language",
+    "theme": "Toggle theme"
+  },
+  "hero": {
+    "line1": "I build",
+    "line2": "<span class=\"gradient-text\">applications</span> and tools",
+    "line3": "that simplify everyday life.",
+    "lead": "I'm <strong>Romain Piau</strong>. I build desktop apps, developer tools and Minecraft projects, from the first idea all the way to production.",
+    "ctaProjects": "See my projects",
+    "ctaContact": "Get in touch"
+  },
+  "stats": {
+    "repos": "Public repos",
+    "langs": "Languages",
+    "lastPush": "Last commit",
+    "activity": "Activity"
+  },
+  "featured": {
+    "kicker": "01 · Selected work",
+    "title": "Main projects",
+    "source": "Source code",
+    "download": "Download",
+    "mm": {
+      "type": "Windows app",
+      "desc": "Installs Minecraft modpacks published on GitHub straight into CurseForge in one click, and updates them without losing worlds or settings. A built-in Studio helps authors publish to GitHub, CurseForge, Modrinth and Hangar."
+    },
+    "cv": {
+      "type": "Desktop app",
+      "desc": "One master résumé, variants in one click: each version hides what isn't needed. Drag-and-drop visual editor, animations, light / dark mode, PDF or HTML export and publishing to GitHub."
+    },
+    "uc": {
+      "type": "Mobile game · Scriptable",
+      "desc": "The Undercover party game on iPhone, inside the Scriptable app: roles sent by text message, a leaderboard saved to iCloud and custom word lists, all in a single native interface."
+    }
+  },
+  "repos": {
+    "kicker": "02 · Open source",
+    "title": "All my repositories",
+    "sub": "Synced with GitHub: every new public repository shows up here automatically.",
+    "filterLabel": "Filter by language",
+    "all": "All"
+  },
+  "stack": {
+    "kicker": "03 · Tools",
+    "title": "My stack",
+    "sub": "The technologies I use every day.",
+    "label": "Technologies",
+    "p1": {
+      "title": "Desktop apps",
+      "desc": "Electron, React and TypeScript for complete Windows apps: installer, automatic updates and a polished interface."
+    },
+    "p2": {
+      "title": "Tools &amp; automation",
+      "desc": "CLIs, MCP servers and release pipelines that take repetitive work off the table."
+    },
+    "p3": {
+      "title": "Minecraft ecosystem",
+      "desc": "Mods in Java and Kotlin, resource packs and distribution tools on CurseForge and Modrinth."
+    }
+  },
+  "contact": {
+    "kicker": "04 · Contact",
+    "title": "Got a project in mind?",
+    "sub": "An app idea, a tool to build or just a question: let's talk.",
+    "linkedin": "Connect on LinkedIn",
+    "github": "My GitHub"
+  },
+  "footer": {
+    "hosted": "Hosted on Cloudflare Pages",
+    "top": "Back to top"
+  },
+  "client": {
+    "locale": "en-US",
+    "other": "Other",
+    "noDescription": "No description yet.",
+    "error": "Couldn't load the repositories right now.",
+    "errorLink": "See them on GitHub ↗",
+    "repos": {
+      "minecraft-modding-manager": {
+        "title": "Modding Manager",
+        "description": "Installs Minecraft modpacks into CurseForge in one click and helps their authors publish them."
+      },
+      "cv": {
+        "title": "CV Studio",
+        "description": "Desktop app to keep a master résumé and generate tailored variants."
+      },
+      "website": {
+        "title": "romainpiau.dev",
+        "description": "The source code of this website, deployed on Cloudflare Pages."
+      },
+      "undercover-scriptable": {
+        "title": "Undercover",
+        "description": "The Undercover party game on iPhone, inside the Scriptable app."
+      },
+      "interactive-music-player-legal": {
+        "title": "Interactive Music Player · Legal",
+        "description": "Terms of Service and Privacy Policy for a self-hosted Discord music bot."
+      }
+    },
+    "contrib": {
+      "one": "{n} contribution",
+      "other": "{n} contributions",
+      "none": "No contributions",
+      "total": "{n} contributions in the last year"
+    }
+  }
+}

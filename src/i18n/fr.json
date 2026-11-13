@@ -1,0 +1,120 @@
+{
+  "meta": {
+    "title": "Romain Piau · Développeur",
+    "description": "Mon portfolio : applications de bureau, outils pour développeurs et projets open source.",
+    "ogLocale": "fr_FR"
+  },
+  "nav": {
+    "home": "Accueil",
+    "label": "Navigation principale",
+    "projects": "Projets",
+    "repos": "Dépôts",
+    "stack": "Stack",
+    "contact": "Contact",
+    "language": "Langue",
+    "theme": "Changer de thème"
+  },
+  "hero": {
+    "line1": "Je conçois des",
+    "line2": "<span class=\"gradient-text\">applications</span> et des outils",
+    "line3": "qui simplifient le quotidien.",
+    "lead": "Moi, c'est <strong>Romain Piau</strong>. Je développe des applications de bureau, des outils pour développeurs et des projets autour de Minecraft, de l'idée jusqu'à la mise en production.",
+    "ctaProjects": "Voir mes projets",
+    "ctaContact": "Me contacter"
+  },
+  "stats": {
+    "repos": "Dépôts publics",
+    "langs": "Langages",
+    "lastPush": "Dernier commit",
+    "activity": "Activité"
+  },
+  "featured": {
+    "kicker": "01 · Sélection",
+    "title": "Projets principaux",
+    "source": "Code source",
+    "download": "Télécharger",
+    "mm": {
+      "type": "Application Windows",
+      "desc": "Installe en un clic des modpacks Minecraft publiés sur GitHub directement dans CurseForge, et les met à jour sans perdre mondes ni réglages. Un Studio intégré aide les auteurs à publier sur GitHub, CurseForge, Modrinth et Hangar."
+    },
+    "cv": {
+      "type": "Application de bureau",
+      "desc": "Un CV de référence, des variantes en un clic : chaque version masque ce qui ne sert pas. Éditeur visuel par glisser-déposer, animations, mode jour / nuit, export PDF ou HTML et publication sur GitHub."
+    },
+    "uc": {
+      "type": "Jeu mobile · Scriptable",
+      "desc": "Le jeu de soirée Undercover sur iPhone, dans l'app Scriptable : distribution des rôles par SMS, classement persistant sur iCloud, listes de mots personnalisables, le tout en une seule interface native."
+    }
+  },
+  "repos": {
+    "kicker": "02 · Open source",
+    "title": "Tous mes dépôts",
+    "sub": "Synchronisé avec GitHub : chaque nouveau dépôt public apparaît ici automatiquement.",
+    "filterLabel": "Filtrer par langage",
+    "all": "Tous"
+  },
+  "stack": {
+    "kicker": "03 · Outils",
+    "title": "Ma stack",
+    "sub": "Les technologies que j'utilise au quotidien.",
+    "label": "Technologies",
+    "p1": {
+      "title": "Applications de bureau",
+      "desc": "Electron, React et TypeScript pour des apps Windows complètes : installeur, mises à jour automatiques, interface soignée."
+    },
+    "p2": {
+      "title": "Outils &amp; automatisation",
+      "desc": "CLI, serveurs MCP et pipelines de publication pour supprimer les tâches répétitives."
+    },
+    "p3": {
+      "title": "Écosystème Minecraft",
+      "desc": "Mods en Java et Kotlin, resource packs et outils de distribution sur CurseForge et Modrinth."
+    }
+  },
+  "contact": {
+    "kicker": "04 · Contact",
+    "title": "Un projet en tête ?",
+    "sub": "Une idée d'application, un outil à construire ou simplement une question : parlons-en.",
+    "linkedin": "Me contacter sur LinkedIn",
+    "github": "Mon GitHub"
+  },
+  "footer": {
+    "hosted": "Hébergé sur Cloudflare Pages",
+    "top": "Haut de page"
+  },
+  "client": {
+    "locale": "fr-FR",
+    "other": "Autre",
+    "noDescription": "Pas encore de description.",
+    "error": "Impossible de charger les dépôts pour le moment.",
+    "errorLink": "Les voir sur GitHub ↗",
+    "repos": {
+      "minecraft-modding-manager": {
+        "title": "Modding Manager",
+        "description": "Installe des modpacks Minecraft dans CurseForge en un clic et aide leurs auteurs à les publier."
+      },
+      "cv": {
+        "title": "CV Studio",
+        "description": "Application de bureau pour tenir un CV de référence et en générer des variantes."
+      },
+      "website": {
+        "title": "romainpiau.dev",
+        "description": "Le code source de ce site, déployé sur Cloudflare Pages."
+      },
+      "undercover-scriptable": {
+        "title": "Undercover",
+        "description": "Le jeu de soirée Undercover sur iPhone, dans l'app Scriptable."
+      },
+      "interactive-music-player-legal": {
+        "title": "Interactive Music Player · Légal",
+        "description": "Conditions d'utilisation et politique de confidentialité d'un bot musical Discord auto-hébergé."
+      }
+    },
+    "contrib": {
+      "one": "{n} contribution",
+      "other": "{n} contributions",
+      "none": "Aucune contribution",
+      "total": "{n} contributions sur les 12 derniers mois"
+    }
+  }
+}

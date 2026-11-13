@@ -1,0 +1,257 @@
+<!doctype html>
+<!--
+  Modèle de page. Ne pas ouvrir tel quel : le plugin Vite (scripts/pages.ts) remplace
+  chaque {{ clé }} par le texte de src/i18n/<langue>.json et génère /fr/ et /en/.
+-->
+<html lang="{{ lang }}" data-theme="dark" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ meta.title }}</title>
+  <meta name="description" content="{{ meta.description }}">
+  <meta name="theme-color" content="#09090f">
+  <link rel="canonical" href="https://romainpiau.dev/{{ lang }}/">
+  <link rel="alternate" hreflang="fr" href="https://romainpiau.dev/fr/">
+  <link rel="alternate" hreflang="en" href="https://romainpiau.dev/en/">
+  <link rel="alternate" hreflang="x-default" href="https://romainpiau.dev/">
+  <meta property="og:title" content="{{ meta.title }}">
+  <meta property="og:description" content="{{ meta.description }}">
+  <meta property="og:url" content="https://romainpiau.dev/{{ lang }}/">
+  <meta property="og:locale" content="{{ meta.ogLocale }}">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <script>
+    document.documentElement.classList.remove('no-js');
+    try {
+      var t = localStorage.getItem('theme');
+      if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+      else if (window.matchMedia('(prefers-color-scheme: light)').matches) document.documentElement.dataset.theme = 'light';
+    } catch (e) {}
+    if (document.documentElement.dataset.theme === 'light') document.querySelector('meta[name="theme-color"]').content = '#f7f7fb';
+  </script>
+  <script id="i18n-data" type="application/json">{{ json:client }}</script>
+</head>
+<body id="top">
+  <div class="bg" aria-hidden="true">
+    <div class="bg__grid"></div>
+    <div class="bg__blob bg__blob--1"></div>
+    <div class="bg__blob bg__blob--2"></div>
+    <div class="bg__blob bg__blob--3"></div>
+    <div class="bg__noise"></div>
+  </div>
+
+  <header class="nav">
+    <div class="nav__blur" aria-hidden="true"></div>
+    <div class="nav__inner container">
+      <a class="nav__brand" href="#top" aria-label="{{ nav.home }}" data-i18n-aria="nav.home">
+        <img src="/favicon.svg" alt="" width="28" height="28">
+        <span>romainpiau<span class="accent">.dev</span></span>
+      </a>
+      <nav class="nav__links" aria-label="{{ nav.label }}" data-i18n-aria="nav.label">
+        <a href="#projects" data-i18n="nav.projects">{{ nav.projects }}</a>
+        <a href="#repos" data-i18n="nav.repos">{{ nav.repos }}</a>
+        <a href="#stack" data-i18n="nav.stack">{{ nav.stack }}</a>
+        <a href="#contact" data-i18n="nav.contact">{{ nav.contact }}</a>
+      </nav>
+      <div class="nav__actions">
+        <div class="lang-switch" role="group" aria-label="{{ nav.language }}" data-i18n-aria="nav.language" data-active="{{ lang }}">
+          <a href="/fr/" hreflang="fr" lang="fr" data-lang="fr" class="{{ active.fr }}" aria-label="Français">FR</a>
+          <a href="/en/" hreflang="en" lang="en" data-lang="en" class="{{ active.en }}" aria-label="English">EN</a>
+        </div>
+        <button class="icon-btn" id="theme-toggle" type="button" aria-label="{{ nav.theme }}" data-i18n-aria="nav.theme">
+          <!-- Une seule icône : le disque se creuse en croissant de lune et les rayons du soleil se replient -->
+          <svg class="theme-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <mask id="theme-icon-mask">
+              <rect width="24" height="24" fill="#fff"/>
+              <circle class="theme-icon__bite" cx="17.5" cy="6.5" r="7" fill="#000"/>
+            </mask>
+            <circle class="theme-icon__core" cx="12" cy="12" r="8.5" mask="url(#theme-icon-mask)"/>
+            <g class="theme-icon__rays">
+              <path d="M12 1.6v2.2"/><path d="M19.35 4.65l-1.55 1.55"/><path d="M22.4 12h-2.2"/><path d="M19.35 19.35l-1.55-1.55"/>
+              <path d="M12 22.4v-2.2"/><path d="M4.65 19.35l1.55-1.55"/><path d="M1.6 12h2.2"/><path d="M4.65 4.65l1.55 1.55"/>
+            </g>
+          </svg>
+        </button>
+        <a class="btn btn--ghost btn--sm" href="https://github.com/WolfGang-PRoxa" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" aria-hidden="true" class="gh"><path d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5z"/></svg>
+          <span>GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero container">
+      <h1 class="hero__title">
+        <span class="line reveal" style="--i:1" data-i18n="hero.line1">{{ hero.line1 }}</span>
+        <span class="line reveal" style="--i:2" data-i18n="hero.line2">{{ hero.line2 }}</span>
+        <span class="line reveal" style="--i:3" data-i18n="hero.line3">{{ hero.line3 }}</span>
+      </h1>
+      <p class="hero__lead reveal" style="--i:4" data-i18n="hero.lead">{{ hero.lead }}</p>
+      <div class="hero__cta reveal" style="--i:5">
+        <a class="btn btn--primary magnetic" href="#projects">
+          <span data-i18n="hero.ctaProjects">{{ hero.ctaProjects }}</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn btn--ghost magnetic" href="#contact" data-i18n="hero.ctaContact">{{ hero.ctaContact }}</a>
+      </div>
+      <dl class="stats reveal" style="--i:6">
+        <div class="stat"><dt data-i18n="stats.repos">{{ stats.repos }}</dt><dd><span data-count="repos">0</span></dd></div>
+        <div class="stat"><dt data-i18n="stats.langs">{{ stats.langs }}</dt><dd><span data-count="langs">0</span></dd></div>
+        <div class="stat"><dt data-i18n="stats.lastPush">{{ stats.lastPush }}</dt><dd><span data-last-push>…</span></dd></div>
+        <div class="stat stat--activity" hidden>
+          <dt data-i18n="stats.activity">{{ stats.activity }}</dt>
+          <dd>
+            <div class="contrib" id="contrib" role="img"></div>
+            <p class="contrib__total" id="contrib-total"></p>
+          </dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="section container" id="projects">
+      <header class="section__head reveal">
+        <p class="section__kicker" data-i18n="featured.kicker">{{ featured.kicker }}</p>
+        <h2 data-i18n="featured.title">{{ featured.title }}</h2>
+      </header>
+
+      <div class="featured">
+        <article class="feature card spotlight reveal" style="--i:1; --hue: 265">
+          <div class="feature__visual" aria-hidden="true">
+            <div class="feature__orb"></div>
+            <img class="feature__logo" src="/icons/minecraft-modding-manager.webp" alt="" width="120" height="120" loading="lazy" decoding="async">
+            <span class="feature__version">v2.3</span>
+          </div>
+          <div class="feature__body">
+            <p class="feature__type" data-i18n="featured.mm.type">{{ featured.mm.type }}</p>
+            <h3>Modding Manager</h3>
+            <p data-i18n="featured.mm.desc">{{ featured.mm.desc }}</p>
+            <ul class="tags">
+              <li>TypeScript</li><li>Electron</li><li>React</li><li>Tailwind</li><li>MCP</li>
+            </ul>
+            <div class="feature__links">
+              <a class="link-arrow" href="https://github.com/WolfGang-PRoxa/minecraft-modding-manager" target="_blank" rel="noopener" data-i18n="featured.source">{{ featured.source }}</a>
+              <a class="link-arrow" href="https://github.com/WolfGang-PRoxa/minecraft-modding-manager/releases/latest" target="_blank" rel="noopener" data-i18n="featured.download">{{ featured.download }}</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="feature card spotlight reveal" style="--i:2; --hue: 190">
+          <div class="feature__visual" aria-hidden="true">
+            <div class="feature__orb"></div>
+            <img class="feature__logo" src="/icons/cv.webp" alt="" width="120" height="120" loading="lazy" decoding="async">
+            <span class="feature__version">v0.3</span>
+          </div>
+          <div class="feature__body">
+            <p class="feature__type" data-i18n="featured.cv.type">{{ featured.cv.type }}</p>
+            <h3>CV Studio</h3>
+            <p data-i18n="featured.cv.desc">{{ featured.cv.desc }}</p>
+            <ul class="tags">
+              <li>JavaScript</li><li>Electron</li><li>HTML / CSS</li><li>Auto-update</li>
+            </ul>
+            <div class="feature__links">
+              <a class="link-arrow" href="https://github.com/WolfGang-PRoxa/cv" target="_blank" rel="noopener" data-i18n="featured.source">{{ featured.source }}</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="feature card spotlight reveal" style="--i:3; --hue: 330">
+          <div class="feature__visual" aria-hidden="true">
+            <div class="feature__orb"></div>
+            <svg viewBox="0 0 64 64" class="feature__icon"><rect x="20" y="6" width="24" height="52" rx="5"/><path d="M29 50h6"/><circle cx="32" cy="24" r="6"/><path d="M24 38c2-4 5-6 8-6s6 2 8 6"/></svg>
+            <span class="feature__version">iOS</span>
+          </div>
+          <div class="feature__body">
+            <p class="feature__type" data-i18n="featured.uc.type">{{ featured.uc.type }}</p>
+            <h3>Undercover</h3>
+            <p data-i18n="featured.uc.desc">{{ featured.uc.desc }}</p>
+            <ul class="tags">
+              <li>JavaScript</li><li>Scriptable</li><li>iCloud</li>
+            </ul>
+            <div class="feature__links">
+              <a class="link-arrow" href="https://github.com/WolfGang-PRoxa/undercover-scriptable" target="_blank" rel="noopener" data-i18n="featured.source">{{ featured.source }}</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section container" id="repos">
+      <header class="section__head reveal">
+        <p class="section__kicker" data-i18n="repos.kicker">{{ repos.kicker }}</p>
+        <h2 data-i18n="repos.title">{{ repos.title }}</h2>
+        <p class="section__sub" data-i18n="repos.sub">{{ repos.sub }}</p>
+      </header>
+
+      <div class="filters reveal" role="toolbar" aria-label="{{ repos.filterLabel }}" data-i18n-aria="repos.filterLabel" id="filters">
+        <button class="chip is-active" type="button" data-lang="all" data-i18n="repos.all">{{ repos.all }}</button>
+      </div>
+
+      <div class="repos" id="repo-list" aria-live="polite">
+        <div class="repo card skeleton"></div>
+        <div class="repo card skeleton"></div>
+        <div class="repo card skeleton"></div>
+      </div>
+    </section>
+
+    <section class="section container" id="stack">
+      <header class="section__head reveal">
+        <p class="section__kicker" data-i18n="stack.kicker">{{ stack.kicker }}</p>
+        <h2 data-i18n="stack.title">{{ stack.title }}</h2>
+        <p class="section__sub" data-i18n="stack.sub">{{ stack.sub }}</p>
+      </header>
+      <div class="marquee reveal" aria-label="{{ stack.label }}" data-i18n-aria="stack.label">
+        <div class="marquee__track">
+          <span>TypeScript</span><span>JavaScript</span><span>React</span><span>Electron</span><span>Node.js</span>
+          <span>Tailwind CSS</span><span>Vite</span><span>Python</span><span>Java</span><span>Kotlin</span>
+          <span>HTML / CSS</span><span>Git &amp; GitHub</span><span>Cloudflare</span>
+        </div>
+      </div>
+      <div class="pillars">
+        <div class="pillar card spotlight reveal" style="--i:1">
+          <span class="pillar__num">A</span>
+          <h3 data-i18n="stack.p1.title">{{ stack.p1.title }}</h3>
+          <p data-i18n="stack.p1.desc">{{ stack.p1.desc }}</p>
+        </div>
+        <div class="pillar card spotlight reveal" style="--i:2">
+          <span class="pillar__num">B</span>
+          <h3 data-i18n="stack.p2.title">{{ stack.p2.title }}</h3>
+          <p data-i18n="stack.p2.desc">{{ stack.p2.desc }}</p>
+        </div>
+        <div class="pillar card spotlight reveal" style="--i:3">
+          <span class="pillar__num">C</span>
+          <h3 data-i18n="stack.p3.title">{{ stack.p3.title }}</h3>
+          <p data-i18n="stack.p3.desc">{{ stack.p3.desc }}</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section container" id="contact">
+      <div class="cta card reveal">
+        <div class="cta__glow" aria-hidden="true"></div>
+        <p class="section__kicker" data-i18n="contact.kicker">{{ contact.kicker }}</p>
+        <h2 data-i18n="contact.title">{{ contact.title }}</h2>
+        <p data-i18n="contact.sub">{{ contact.sub }}</p>
+        <div class="hero__cta">
+          <a class="btn btn--primary magnetic" href="https://www.linkedin.com/in/romain-piau-b63862449/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" class="li"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg><span data-i18n="contact.linkedin">{{ contact.linkedin }}</span></a>
+          <a class="btn btn--ghost magnetic" href="https://github.com/WolfGang-PRoxa" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" class="gh"><path d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5z"/></svg><span data-i18n="contact.github">{{ contact.github }}</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer container">
+    <div class="footer__top">
+      <a class="to-top" href="#top">
+        <span class="to-top__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></svg></span>
+        <span data-i18n="footer.top">{{ footer.top }}</span>
+      </a>
+    </div>
+    <p>© <span id="year">2026</span> Romain Piau</p>
+    <p class="footer__social"><a href="https://www.linkedin.com/in/romain-piau-b63862449/" target="_blank" rel="noopener">LinkedIn</a><a href="https://github.com/WolfGang-PRoxa" target="_blank" rel="noopener">GitHub</a></p>
+    <p class="footer__meta" data-i18n="footer.hosted">{{ footer.hosted }}</p>
+  </footer>
+
+  <script type="module" src="/main.ts"></script>
+</body>
+</html>

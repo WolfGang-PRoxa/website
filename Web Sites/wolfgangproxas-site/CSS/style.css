@@ -1,0 +1,430 @@
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    height: 100%;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(120deg, #309bff, #2fffea);
+    background-size: 200% 200%;
+    animation: gradient-animation 8s ease-in-out infinite;
+    color: #333;
+}
+
+/* Animation pour le dégradé */
+
+@keyframes gradient-animation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+
+
+
+/* Généralités prédéfinies de simples balises HTML */
+
+ul {
+    list-style: none;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+
+
+
+
+
+/* Liens interpages (références) */
+
+#bio, #conceptions {
+    scroll-margin-top: 140px;
+}
+
+
+
+
+/* Navigation */
+
+nav {
+    position: sticky;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+
+    margin-top: 1%;
+    padding: 1% 0.5%;
+
+    top: 0; /* La navigation colle en haut de la page */
+    z-index: 1000; /* Pour être certain que le nav reste au-dessus du reste de la page */
+}
+
+nav #sub-nav-1 {
+    position: relative;
+    display: grid;
+    grid-template-columns: 25% 45% 30%;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+
+    margin: 0;
+    padding: 0% 1%;
+
+    background-color: rgba(93, 93, 93, 0.75);
+    color: white;
+    top: 2%;
+    z-index: 10;
+    width: 95%;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(2px);
+    overflow: hidden;
+}
+
+.nav-logo {
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+
+    margin: 1rem;
+    padding: 1em;
+
+    transition: all 0.3s ease-in-out;
+}
+
+.nav-logo .logo {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+
+    width: 50px;
+    height: 50px;
+
+    border-radius: 100%;
+
+    box-shadow: none;
+    border: none;
+    transform: scale(1);
+
+    transition: all 0.3s ease-in-out;
+}
+
+.nav-logo .logo:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border: 3px solid #309bff;
+    transform: scale(1.02);
+}
+
+.nav-logo .logo:active {
+    transform: scale(0.95);
+}
+
+.nav-logo h1 {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+
+    font-size: clamp(80%, 2vw, 150%);
+}
+
+nav #sub-nav-1 #menu {
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+
+    margin: 1em;
+    padding: 1em;
+
+    max-height: 4em;
+    overflow: auto;
+
+    border: 3px solid rgba(0, 229, 255, 0.8);
+    border-radius: 20px;
+
+    transition: all 0.2s ease-in-out;
+}
+
+nav #sub-nav-1 #menu:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border: 4px solid #3a4bff;
+    transform: scale(1.02);
+}
+
+nav #sub-nav-1 #menu li {
+    padding: 1em;
+    font-size: 1.1em;
+    font-weight: bold;
+    border-radius: 20px;
+    transition: all 0.3s ease-in-out;
+}
+
+nav #sub-nav-1 #menu li:hover {
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    transform: scale(1.1); /* Grossit légèrement */
+}
+
+nav #sub-nav-1 #menu li:active {
+    transform: scale(0.95);
+}
+
+nav #sub-nav-1 #menu li #sub-menu-1 li {
+    display: none;
+
+    margin: 1em;
+    padding: 1em;
+
+    transition: all 0.3s ease-in-out;
+}
+
+nav #sub-nav-1 #menu li #sub-menu-1:active li {
+    display: flex;
+    transition: all 0.3s ease-in-out;
+}
+
+nav #sub-nav-1 .reseaux {
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+
+    flex-direction: row;
+
+    margin: 1em;
+    padding: 1em;
+
+    max-height: 4em;
+    overflow: auto;
+
+    border: 3px solid rgba(0, 229, 255, 0.8);
+    border-radius: 20px;
+
+    transition: all 0.3s ease-in-out;
+}
+
+nav #sub-nav-1 .reseaux:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border: 4px solid #3a4bff;
+    transform: scale(1.02);
+}
+
+nav #sub-nav-1 .reseaux li {
+    margin: 0% 3%;
+    border-radius: 100%;
+
+    transition: all 0.3s ease-in-out;
+}
+
+nav #sub-nav-1 .reseaux li:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transform: scale(1.1); /* Grossit légèrement */
+}
+
+.socialContainer {
+    width: 52px;
+    height: 52px;
+    background-color: rgb(78, 78, 78);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    overflow: hidden;
+    transition: all 0.4s ease-in-out;
+  }
+
+.socialContainer:active {
+    transform: scale(0.95);
+}
+
+.socialSvg {
+    width: 25px;
+}
+
+.socialContainer:hover .socialSvg path {
+    fill: white;
+}
+  
+  /* Social media container hover styles */
+.containerOne:hover { background-image: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #ff53d4 60%, #62c2fe 90%); } /* Instagram */
+.containerTwo:hover { background-color: #ff0000; } /* BandLab */
+.containerThree:hover { background-color: #ff4400; } /* SoundCloud */
+
+
+
+
+/* Sections principales */
+
+#section-box-0 {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.section-box-1 {
+    position: relative;
+    justify-content: flex-start;
+
+    margin: calc(5px + 0.5%);
+}
+
+.box-title-1 {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+
+    margin: 2%;
+}
+
+.box-body-1 {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+
+    margin: 2%;
+}
+
+.section-box-2 {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.section-box-3 {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+
+    margin: 1%;
+}
+
+.box-title-3 {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+
+    margin: 2%;
+}
+
+.box-body-3 {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+
+    margin: 2%;
+}
+
+.box-body-3 {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+
+    margin: 2%;
+}
+
+#bio, #conceptions, #musiques, #jeux, #actus {
+    position: relative;
+    width: 98%;
+    background-color: rgba(255, 255, 255, 0.92);
+    border: 3px solid #3a4bff;
+    border-radius: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+section h2 {
+    color: #444;
+}
+
+section p {
+    color: #444;
+}
+
+
+
+
+footer {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    z-index: 1000;
+}
+
+
+footer #sub-footer-1 {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+
+    width: 100%;
+
+    background-color: rgba(93, 93, 93, 0.75);
+}
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 768px) { /* Ne pas changer cette taille car c'est la taille des appareils mobiles */
+
+    nav #sub-nav-1 {
+        display: grid;
+        grid-template-columns: 25% 75%;
+    }
+
+    nav #sub-nav-1 .reseaux {
+        display: none;
+        opacity: 0;
+        transform: translateY(-10px);
+        
+        transition: all 0.5s ease-in-out;
+    }
+}

@@ -1,0 +1,5 @@
+node_modules/
+dist/
+# Pages générées à partir de src/template.html
+src/en/
+src/fr/

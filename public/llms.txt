@@ -1,0 +1,26 @@
+# Romain Piau
+
+> Portfolio of Romain Piau, a developer who builds desktop applications, developer tools and Minecraft projects, from the first idea to production. The site is available in English and French.
+
+I mostly work with TypeScript, JavaScript, React, Electron and Node.js, plus Python, Java and Kotlin. My public repositories are listed on the site and stay in sync with GitHub.
+
+## Pages
+
+- [Portfolio (English)](https://romainpiau.dev/en/): featured projects, all public repositories, tech stack and contact
+- [Portfolio (French)](https://romainpiau.dev/fr/): the same content in French
+
+## Featured projects
+
+- [Modding Manager](https://github.com/WolfGang-PRoxa/minecraft-modding-manager): Windows app (TypeScript, Electron, React) that installs Minecraft modpacks published on GitHub into CurseForge in one click and updates them without losing worlds or settings. Its built-in Studio helps authors publish to GitHub, CurseForge, Modrinth and Hangar.
+- [CV Studio](https://github.com/WolfGang-PRoxa/cv): desktop app (Electron) to keep one master résumé and generate tailored variants, with a visual editor and PDF or HTML export.
+- [Undercover](https://github.com/WolfGang-PRoxa/undercover-scriptable): the Undercover party game for iPhone, built for the Scriptable app.
+
+## Contact
+
+- [LinkedIn](https://www.linkedin.com/in/romain-piau-b63862449/)
+- [GitHub](https://github.com/WolfGang-PRoxa)
+
+## Optional
+
+- [All public repositories](https://github.com/WolfGang-PRoxa?tab=repositories)
+- [Source code of this site](https://github.com/WolfGang-PRoxa/website)
