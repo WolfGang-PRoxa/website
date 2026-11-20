@@ -126,7 +126,10 @@ p { margin: 0; }
 }
 
 /* ---------- Nav ---------- */
-.nav { position: sticky; top: 0; z-index: 50; }
+/* Barre fixe (et non « sticky ») : quand on tire la page au-delà du bas (rebond iOS, pavé tactile),
+   une barre sticky est repoussée vers le haut avec la fin du <body> ; une barre fixe reste en place. */
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; }
+#main { padding-top: 4.25rem; } /* place occupée par la barre fixe */
 /* Fond de la barre : voile flouté qui s'estompe vers le bas, sans coupure nette avec la page */
 .nav__blur {
   position: absolute; inset: 0 0 -2.25rem; z-index: -1; pointer-events: none;
@@ -628,6 +631,12 @@ html.has-scrollbar::-webkit-scrollbar { display: none; }
 .btn:hover .li, .btn:hover .gh { transform: none; }
 .footer__social { display: flex; align-items: center; gap: .875rem; }
 .footer__social a { transition: color .2s; }
+/* Écran étroit : textes du pied de page centrés, les uns sous les autres */
+@media (max-width: 720px) {
+  .footer { flex-direction: column; align-items: center; gap: .5rem; text-align: justify; text-align-last: center; }
+  .footer__top { align-self: stretch; }
+  .footer__social { justify-content: center; }
+}
 .footer__social a + a::before {
   content: ""; display: inline-block; width: .25rem; height: .25rem; margin-right: .875rem; border-radius: 50%;
   background: var(--grad); vertical-align: middle; transform: translateY(-1px);
@@ -688,6 +697,7 @@ main:focus { outline: none; }
 
 /* ---------- Impression ---------- */
 @media print {
+  #main { padding-top: 0 !important; }
   :root, :root[data-theme] {
     --bg: #fff; --bg-elev: #fff; --bg-elev-2: #f4f4f7; --text: #111; --text-muted: #333; --text-faint: #555;
     --border: #ddd; --border-strong: #bbb; --shadow: none; color-scheme: light;
