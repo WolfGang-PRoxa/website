@@ -6,6 +6,8 @@ export interface RepoCounts {
   public: number;
   /** `null` : inconnu (pas de jeton, ou jeton d'un autre compte) */
   private: number | null;
+  /** État du jeton GitHub (diagnostic) */
+  auth?: string;
 }
 
 interface GithubUser {
@@ -41,17 +43,27 @@ const countPrivate = async (token: string): Promise<number> => {
 
 /** `null` si GitHub ne répond pas */
 export const repoCounts = async (user: string, token?: string): Promise<RepoCounts | null> => {
-  try {
-    if (token) {
+  // `auth` dit pourquoi les dépôts privés manquent (sans jamais exposer le jeton)
+  let auth = token ? 'ok' : 'sans jeton';
+  if (token) {
+    try {
       // GET /user : profil complet du propriétaire du jeton, avec ses dépôts privés
       const me = await get('https://api.github.com/user', token);
       if (me.login.toLowerCase() === user.toLowerCase()) {
-        const priv = me.owned_private_repos ?? me.total_private_repos ?? (await countPrivate(token).catch(() => null));
-        return { public: me.public_repos, private: priv };
+        let priv = me.owned_private_repos ?? me.total_private_repos ?? null;
+        if (priv === null) {
+          try { priv = await countPrivate(token); } catch (err) { auth = `liste des dépôts privés refusée (${(err as Error).message})`; }
+        }
+        return { public: me.public_repos, private: priv, auth };
       }
+      auth = `jeton d'un autre compte (${me.login})`;
+    } catch (err) {
+      auth = `jeton refusé (${(err as Error).message})`;
     }
-    const profile = await get(`https://api.github.com/users/${user}`, token);
-    return { public: profile.public_repos, private: null };
+  }
+  try {
+    const profile = await get(`https://api.github.com/users/${user}`);
+    return { public: profile.public_repos, private: null, auth };
   } catch {
     return null;
   }

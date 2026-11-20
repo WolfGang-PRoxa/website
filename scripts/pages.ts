@@ -239,7 +239,7 @@ const loadBuildData = async ({ githubUser, iconsDir, featured, site }: Options, 
   if (!counts) {
     try { counts = (await getJson<{ repos: RepoCounts | null }>(`${site}/data/profile.json`)).repos; } catch { /* inconnu */ }
   }
-  log(`Nombre de dépôts : ${counts ? `${counts.public} publics, ${counts.private ?? '?'} privés` : 'inconnu'}`);
+  log(`Nombre de dépôts : ${counts ? `${counts.public} publics, ${counts.private ?? '?'} privés (jeton : ${counts.auth ?? '?'})` : 'inconnu'}`);
 
   return { repos, counts, icons, featured, githubUser };
 };

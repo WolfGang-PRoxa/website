@@ -48,7 +48,7 @@ export const onRequestGet = async ({ request, env, waitUntil }: Context): Promis
     return old ? json({ repos: old }, 'public, max-age=300') : json({ error: 'GitHub indisponible' }, 'no-store', 502);
   }
   // Sans jeton, le nombre de dépôts privés connu au build reste affiché
-  const repos: RepoCounts = { public: live.public, private: live.private ?? old?.private ?? null };
+  const repos: RepoCounts = { public: live.public, private: live.private ?? old?.private ?? null, auth: live.auth };
   const response = json({ repos }, `public, max-age=600, s-maxage=${TTL}`);
   waitUntil(cache.put(key, response.clone()));
   return response;
