@@ -53,9 +53,11 @@ Chaque push sur `main` est déployé automatiquement sur Cloudflare Pages, et ch
 | Build output directory | `dist` |
 | Root directory | *(vide)* |
 
+Le projet Pages doit être relié à ce dépôt (Settings › Builds › Git repository). Si le dépôt est recréé, il faut le relier à nouveau : le prochain push relance alors les builds.
+
 ## Variable facultative
 
-`GITHUB_TOKEN` (build et Functions) : un jeton GitHub en lecture seule évite la limite de 60 requêtes par heure de l'API publique.
+`GITHUB_TOKEN` (build et Functions) : un jeton GitHub en lecture seule évite la limite de 60 requêtes par heure de l'API publique. À ajouter comme secret dans Settings › Variables and Secrets, pour la production et les aperçus.
 
 ## Ajouter une langue
 

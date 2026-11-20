@@ -53,9 +53,11 @@ Every push to `main` is deployed to Cloudflare Pages automatically, and every ot
 | Build output directory | `dist` |
 | Root directory | *(empty)* |
 
+The Pages project must be linked to this repository (Settings › Builds › Git repository). If the repository is recreated, link it again: the next push starts the builds again.
+
 ## Optional variable
 
-`GITHUB_TOKEN` (build and Functions): a read-only GitHub token avoids the public API limit of 60 requests per hour.
+`GITHUB_TOKEN` (build and Functions): a read-only GitHub token avoids the public API limit of 60 requests per hour. Add it as a secret in Settings › Variables and Secrets, for production and previews.
 
 ## Adding a language
 
