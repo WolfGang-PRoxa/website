@@ -57,7 +57,7 @@ Le projet Pages doit être relié à ce dépôt (Settings › Builds › Git rep
 
 ## Variable facultative
 
-`GITHUB_TOKEN` (build et Functions) : un jeton GitHub du compte WolfGang-PRoxa, en lecture seule. Il évite la limite de 60 requêtes par heure de l'API publique et permet d'afficher le nombre de dépôts privés (`/api/profile`) ; sans lui, seuls les dépôts publics sont comptés. À ajouter comme secret dans Settings › Variables and Secrets, pour la production et les aperçus.
+`GITHUB_TOKEN` (build et Functions) : un jeton GitHub du compte WolfGang-PRoxa, en lecture seule. Il évite la limite de 60 requêtes par heure de l'API publique et permet d'afficher le nombre de dépôts privés (`/api/profile`) ; sans lui, seuls les dépôts publics sont comptés. Un secret ajouté ou modifié ne sert qu'à partir du déploiement suivant. À ajouter comme secret dans Settings › Variables and Secrets, pour la production et les aperçus.
 
 ## Ajouter une langue
 
