@@ -23,22 +23,27 @@ const json = (body: unknown, cache: string, status = 200) => new Response(JSON.s
   headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': cache, 'X-Content-Type-Options': 'nosniff' },
 });
 
-const built = async (env: Env, url: string): Promise<RepoCounts | null> => {
+interface Built { repos: RepoCounts | null; at?: string }
+
+const built = async (env: Env, url: string): Promise<Built> => {
   try {
     const res = await env.ASSETS.fetch(new URL('/data/profile.json', url));
-    return res.ok ? ((await res.json()) as { repos: RepoCounts | null }).repos : null;
+    return res.ok ? ((await res.json()) as Built) : { repos: null };
   } catch {
-    return null;
+    return { repos: null };
   }
 };
 
 export const onRequestGet = async ({ request, env, waitUntil }: Context): Promise<Response> => {
+  // Clé de cache propre à chaque déploiement : un nouveau build (ou un secret ajouté) s'applique tout de suite
+  const fromBuild = await built(env, request.url);
+  const old = fromBuild.repos;
   const cache = (caches as unknown as { default: Cache }).default;
-  const key = new Request(new URL('/api/profile', request.url).toString());
+  const key = new Request(new URL(`/api/profile?build=${encodeURIComponent(fromBuild.at ?? '')}`, request.url).toString());
   const cached = await cache.match(key);
   if (cached) return cached;
 
-  const [live, old] = await Promise.all([repoCounts(GITHUB_USER, env.GITHUB_TOKEN), built(env, request.url)]);
+  const live = await repoCounts(GITHUB_USER, env.GITHUB_TOKEN);
   if (!live) {
     return old ? json({ repos: old }, 'public, max-age=300') : json({ error: 'GitHub indisponible' }, 'no-store', 502);
   }

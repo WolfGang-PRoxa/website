@@ -341,7 +341,7 @@ export default function sitePages(options: Options): Plugin {
       await mkdir(join(out, 'data', 'icons'), { recursive: true });
       await writeFile(join(out, 'data', 'icons.json'), JSON.stringify(data.icons));
       if (data.repos) await writeFile(join(out, 'data', 'repos.json'), JSON.stringify(data.repos));
-      await writeFile(join(out, 'data', 'profile.json'), JSON.stringify({ repos: data.counts }));
+      await writeFile(join(out, 'data', 'profile.json'), JSON.stringify({ repos: data.counts, at: new Date().toISOString() }));
       for (const [file, buf] of repoIconFiles) await writeFile(join(out, 'data', 'icons', file), buf);
 
       await writeFile(join(out, 'sitemap.xml'), sitemap(options.site, languages(src)));
