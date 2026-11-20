@@ -15,6 +15,7 @@
       </div>
       <dl class="stats reveal" style="--i:6">
         <div class="stat"><dt data-i18n="stats.years">{{ stats.years }}</dt><dd><span data-count="years" data-since="2018" data-value="{{ build.years }}">{{ build.years }}</span></dd></div>
+        <div class="stat stat--repos"><dt data-i18n="stats.repos">{{ stats.repos }}</dt><dd><span data-repo-total data-count="repos" data-value="{{ build.repoTotal }}">{{ build.repoTotal }}</span><span class="stat__sub" data-repo-split>{{ build.repoSplit }}</span></dd></div>
         <div class="stat"><dt data-i18n="stats.lastPush">{{ stats.lastPush }}</dt><dd><span data-last-push>{{ build.lastPush }}</span></dd></div>
         <div class="stat stat--activity" hidden>
           <dt data-i18n="stats.activity">{{ stats.activity }}</dt>

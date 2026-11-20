@@ -209,12 +209,15 @@ p { margin: 0; }
 .hero__lead strong { color: var(--text); font-weight: 600; }
 .hero__cta { margin-top: 2.25rem; display: flex; flex-wrap: wrap; gap: .75rem; }
 
-.stats { margin: 4rem 0 0; display: grid; grid-template-columns: repeat(2, max-content) minmax(0, 1fr); border-top: 1px solid var(--border); }
+.stats { margin: 4rem 0 0; display: grid; grid-template-columns: repeat(3, max-content) minmax(0, 1fr); border-top: 1px solid var(--border); }
 .stat { padding: 1.25rem 0 0; }
 .stats > .stat:not(:last-child) { padding-right: 2rem; }
 .stat + .stat { padding-left: 1.5rem; }
 .stat dt { font-size: .8125rem; color: var(--text-faint); font-family: var(--font-mono); }
 .stat dd { margin: .375rem 0 0; font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2.125rem); font-weight: 600; }
+/* Détail sous un chiffre (ex. « 6 publics · 15 privés ») */
+.stat__sub { display: block; margin-top: .125rem; font-family: var(--font-mono); font-size: .75rem; font-weight: 400; color: var(--text-faint); }
+.stat__sub:empty { display: none; }
 
 
 /* ---------- Sections ---------- */
@@ -493,7 +496,7 @@ p { margin: 0; }
 .contrib__tip.is-visible { opacity: 1; transform: translate(-50%, calc(-100% - .625rem)); }
 
 @media (max-width: 900px) {
-  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .stats > .stat:not(:last-child) { padding-right: 0; }
   .stat--activity { grid-column: 1 / -1; padding-left: 0 !important; margin-top: .5rem; }
 }
@@ -503,9 +506,11 @@ p { margin: 0; }
   .section { padding-top: 5.5rem; }
   .nav__actions .btn span { display: none; }
   .nav__actions .btn--sm { width: 2.375rem; height: 2.375rem; padding: 0; justify-content: center; }
+  /* Téléphone : années de code et dépôts côte à côte, dernier commit en dessous */
   .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .stats > .stat:not(:last-child) { padding-right: 0; }
   .stat + .stat { padding-left: .875rem; }
+  .stats > .stat:nth-child(3) { grid-column: 1 / -1; padding-left: 0; }
   .stat dt { font-size: .7188rem; }
   .hero { min-height: auto; padding-bottom: 2.5rem; }
 }

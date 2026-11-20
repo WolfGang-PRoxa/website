@@ -57,7 +57,7 @@ The Pages project must be linked to this repository (Settings › Builds › Git
 
 ## Optional variable
 
-`GITHUB_TOKEN` (build and Functions): a read-only GitHub token avoids the public API limit of 60 requests per hour. Add it as a secret in Settings › Variables and Secrets, for production and previews.
+`GITHUB_TOKEN` (build and Functions): a read-only GitHub token of the WolfGang-PRoxa account. It avoids the public API limit of 60 requests per hour and lets the site show the number of private repositories (`/api/profile`); without it, only public repositories are counted. Add it as a secret in Settings › Variables and Secrets, for production and previews.
 
 ## Adding a language
 

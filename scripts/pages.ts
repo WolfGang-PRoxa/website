@@ -12,6 +12,7 @@ import { dirname, join, relative, resolve } from 'node:path';
 import type { Plugin, ResolvedConfig } from 'vite';
 import { downloadUrl, escapeHtml, filterChipsHtml, isDownloadable, repoCardHtml, slimRepo, timeAgo, visibleRepos } from '../src/lib/repo-card.ts';
 import { latestRelease, versionLabel } from '../src/lib/releases.ts';
+import { repoCounts, repoSplit, repoTotal, type RepoCounts } from '../src/lib/repo-counts.ts';
 import type { ClientDict, Repo } from '../src/types.ts';
 
 type Dict = Record<string, unknown>;
@@ -79,6 +80,8 @@ export const languages = (src: string): string[] =>
 /** Données calculées au build et écrites dans les pages */
 interface BuildData {
   repos: Repo[] | null;
+  /** Nombre de dépôts publics et privés */
+  counts: RepoCounts | null;
   icons: Record<string, string>;
   featured: Options['featured'];
   githubUser: string;
@@ -102,6 +105,8 @@ const buildContext = (data: BuildData, client: ClientDict) => {
     since: String(CODING_SINCE),
     years: String(new Date().getFullYear() - CODING_SINCE),
     lastPush: repos[0] ? timeAgo(repos[0].pushed_at, client.locale) : '…',
+    repoTotal: repoTotal(data.counts),
+    repoSplit: escapeHtml(repoSplit(data.counts, client)),
     cards: data.repos ? repos.map((r, i) => repoCardHtml(r, i, client, data.icons[r.name])).join('') : skeleton,
     chips: filterChipsHtml(repos, client),
     release,
@@ -229,7 +234,14 @@ const loadBuildData = async ({ githubUser, iconsDir, featured, site }: Options, 
     log(`Releases téléchargeables : ${downloads.join(', ') || 'aucune'}${unknown ? ` (${unknown} dépôt(s) sans réponse de GitHub)` : ''}`);
   }
 
-  return { repos, icons, featured, githubUser };
+  // 4. nombre de dépôts (privés compris avec le jeton du compte), sinon ceux du site en ligne
+  let counts = await repoCounts(githubUser, process.env.GITHUB_TOKEN);
+  if (!counts) {
+    try { counts = (await getJson<{ repos: RepoCounts | null }>(`${site}/data/profile.json`)).repos; } catch { /* inconnu */ }
+  }
+  log(`Nombre de dépôts : ${counts ? `${counts.public} publics, ${counts.private ?? '?'} privés` : 'inconnu'}`);
+
+  return { repos, counts, icons, featured, githubUser };
 };
 
 /* ---------- Après le build ---------- */
@@ -329,6 +341,7 @@ export default function sitePages(options: Options): Plugin {
       await mkdir(join(out, 'data', 'icons'), { recursive: true });
       await writeFile(join(out, 'data', 'icons.json'), JSON.stringify(data.icons));
       if (data.repos) await writeFile(join(out, 'data', 'repos.json'), JSON.stringify(data.repos));
+      await writeFile(join(out, 'data', 'profile.json'), JSON.stringify({ repos: data.counts }));
       for (const [file, buf] of repoIconFiles) await writeFile(join(out, 'data', 'icons', file), buf);
 
       await writeFile(join(out, 'sitemap.xml'), sitemap(options.site, languages(src)));

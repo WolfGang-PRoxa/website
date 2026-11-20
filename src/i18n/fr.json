@@ -28,6 +28,7 @@
   },
   "stats": {
     "years": "Années de code",
+    "repos": "Dépôts",
     "lastPush": "Dernier commit",
     "activity": "Activité"
   },
@@ -137,6 +138,16 @@
     "motion": {
       "pause": "Mettre les animations en pause",
       "play": "Relancer les animations"
+    },
+    "repoCounts": {
+      "public": {
+        "one": "{n} public",
+        "other": "{n} publics"
+      },
+      "private": {
+        "one": "{n} privé",
+        "other": "{n} privés"
+      }
     }
   },
   "notFound": {

@@ -12,6 +12,8 @@ export interface ClientDict {
   download?: string;
   /** Bouton de pause des animations */
   motion?: { pause: string; play: string };
+  /** Détail du nombre de dépôts ({n} = nombre) */
+  repoCounts?: { public: { one: string; other: string }; private: { one: string; other: string } };
   /** Calendrier des contributions ({n} = nombre) */
   contrib?: { one: string; other: string; none: string; total: string };
   /** Titre et description affichés à la place de ceux de GitHub */
