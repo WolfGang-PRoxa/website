@@ -29,22 +29,25 @@ const json = (body: string, cache: string, status = 200) => new Response(body, {
   headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': cache, 'X-Content-Type-Options': 'nosniff' },
 });
 
-const staticList = async (env: Env, url: string): Promise<Repo[]> => {
+/** Liste du dernier build, et sa version (ETag du fichier) pour la clé de cache */
+const staticList = async (env: Env, url: string): Promise<{ list: Repo[]; version: string }> => {
   try {
     const res = await env.ASSETS.fetch(new URL('/data/repos.json', url));
-    return res.ok ? ((await res.json()) as Repo[]) : [];
+    if (!res.ok) return { list: [], version: '' };
+    return { list: (await res.json()) as Repo[], version: res.headers.get('etag') ?? '' };
   } catch {
-    return [];
+    return { list: [], version: '' };
   }
 };
 
 export const onRequestGet = async ({ request, env, waitUntil }: Context): Promise<Response> => {
+  // Clé de cache propre à chaque build : un nouveau déploiement s'applique tout de suite
+  const { list: built, version } = await staticList(env, request.url);
   const cache = (caches as unknown as { default: Cache }).default;
-  const key = new Request(new URL('/api/repos', request.url).toString());
+  const key = new Request(new URL(`/api/repos?build=${encodeURIComponent(version)}`, request.url).toString());
   const cached = await cache.match(key);
   if (cached) return cached;
 
-  const built = await staticList(env, request.url);
   try {
     const res = await fetch(`https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&sort=pushed`, {
       headers: {
