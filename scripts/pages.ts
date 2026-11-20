@@ -156,7 +156,7 @@ export const renderPages = (src: string, site: string, data: BuildData): Record<
 
 // Emplacements courants d'une icône dans un dépôt
 const ICON_CANDIDATES = [
-  'build/icon.png', 'icon.png', 'icon.svg', 'logo.png', 'logo.svg',
+  'build/icon.png', 'app/build/icon.png', 'branding/icon.svg', 'icon.png', 'icon.svg', 'logo.png', 'logo.svg',
   'assets/icon.png', 'assets/logo.png', 'resources/icon.png',
   'public/icon.png', 'public/logo.png', 'src/assets/icon.png', '.github/icon.png', 'docs/icon.png',
 ];

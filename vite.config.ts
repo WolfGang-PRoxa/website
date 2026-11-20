@@ -18,8 +18,8 @@ export default defineConfig({
       iconsDir: 'public/icons',
       featured: {
         mm: { repo: 'minecraft-modding-manager', fallback: 'v2.5.0' },
-        cv: { repo: 'cv', fallback: 'v0.3' },
-        uc: { repo: 'undercover-app' },
+        ula: { repo: 'universal-learn-academy', fallback: 'v2.6.1' },
+        imp: { repo: 'interactive-music-player', fallback: 'v0.0.1' },
       },
     }),
   ],

@@ -40,13 +40,13 @@
       "type": "Windows app",
       "desc": "Installs Minecraft modpacks published on GitHub straight into CurseForge in one click, and updates them without losing worlds or settings. A built-in Studio helps authors publish to GitHub, CurseForge, Modrinth and Hangar."
     },
-    "cv": {
-      "type": "Desktop app",
-      "desc": "One master résumé, variants in one click: each version hides what isn't needed. Drag-and-drop visual editor, animations, light / dark mode, PDF or HTML export and publishing to GitHub."
+    "ula": {
+      "type": "Desktop app · Windows, Linux",
+      "desc": "Formatted courses, quizzes and interactive exercises, with a local server that runs the code in answers (SQL, Python, C, JavaScript) and calls Claude for help, grading and new quizzes. On-demand course catalogue, profiles and study paths, automatic updates."
     },
-    "uc": {
-      "type": "Mobile game · Scriptable",
-      "desc": "The Undercover party game on iPhone, inside the Scriptable app: roles sent by text message, a leaderboard saved to iCloud and custom word lists, all in a single native interface."
+    "imp": {
+      "type": "Discord bot · Desktop app",
+      "desc": "A Discord music bot that lowers the volume as soon as someone speaks, then brings it back smoothly. Real-time web dashboard: queue, playlists, YouTube, Spotify, SoundCloud, local files, crossfades and loudness matching."
     }
   },
   "repos": {
@@ -116,6 +116,9 @@
       },
       "ula": {
         "title": "ULA"
+      },
+      "interactive-music-player": {
+        "description": "Discord music bot that lowers the volume when people speak, with a real-time web dashboard."
       }
     },
     "contrib": {

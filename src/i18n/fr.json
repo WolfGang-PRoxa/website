@@ -40,13 +40,13 @@
       "type": "Application Windows",
       "desc": "Installe en un clic des modpacks Minecraft publiés sur GitHub directement dans CurseForge, et les met à jour sans perdre mondes ni réglages. Un Studio intégré aide les auteurs à publier sur GitHub, CurseForge, Modrinth et Hangar."
     },
-    "cv": {
-      "type": "Application de bureau",
-      "desc": "Un CV de référence, des variantes en un clic : chaque version masque ce qui ne sert pas. Éditeur visuel par glisser-déposer, animations, mode jour / nuit, export PDF ou HTML et publication sur GitHub."
+    "ula": {
+      "type": "Application de bureau · Windows, Linux",
+      "desc": "Des cours mis en forme, des quiz et des TD interactifs, avec un serveur local qui exécute le code des réponses (SQL, Python, C, JavaScript) et fait appel à Claude pour l'aide, la correction et la création de quiz. Catalogue téléchargé à la demande, profils et cursus, mises à jour automatiques."
     },
-    "uc": {
-      "type": "Jeu mobile · Scriptable",
-      "desc": "Le jeu de soirée Undercover sur iPhone, dans l'app Scriptable : distribution des rôles par SMS, classement persistant sur iCloud, listes de mots personnalisables, le tout en une seule interface native."
+    "imp": {
+      "type": "Bot Discord · Application de bureau",
+      "desc": "Un bot de musique pour Discord qui baisse le volume dès que quelqu'un parle, puis le remonte en douceur. Tableau de bord web en temps réel : file d'attente, playlists, YouTube, Spotify, SoundCloud, fichiers locaux, fondus enchaînés et volume harmonisé."
     }
   },
   "repos": {
@@ -119,6 +119,9 @@
       },
       "universal-learn-academy": {
         "description": "Plateforme d'apprentissage en ligne pour apprendre n'importe quel sujet, à son rythme, dans un seul environnement."
+      },
+      "interactive-music-player": {
+        "description": "Bot Discord de musique qui baisse le volume quand on parle, avec un tableau de bord web en temps réel."
       }
     },
     "contrib": {
