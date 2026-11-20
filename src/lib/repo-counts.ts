@@ -15,7 +15,7 @@ interface GithubUser {
   total_private_repos?: number;
 }
 
-const get = async (url: string, token?: string): Promise<GithubUser> => {
+const get = async <T = GithubUser>(url: string, token?: string): Promise<T> => {
   const res = await fetch(url, {
     headers: {
       Accept: 'application/vnd.github+json',
@@ -25,7 +25,18 @@ const get = async (url: string, token?: string): Promise<GithubUser> => {
     signal: AbortSignal.timeout(10000),
   });
   if (!res.ok) throw new Error(`GitHub ${res.status}`);
-  return (await res.json()) as GithubUser;
+  return (await res.json()) as T;
+};
+
+/** Dépôts privés du compte, comptés un par un (si le profil ne donne pas le total) */
+const countPrivate = async (token: string): Promise<number> => {
+  let n = 0;
+  for (let page = 1; page <= 10; page++) {
+    const list = await get<unknown[]>(`https://api.github.com/user/repos?visibility=private&affiliation=owner&per_page=100&page=${page}`, token);
+    n += list.length;
+    if (list.length < 100) break;
+  }
+  return n;
 };
 
 /** `null` si GitHub ne répond pas */
@@ -35,7 +46,8 @@ export const repoCounts = async (user: string, token?: string): Promise<RepoCoun
       // GET /user : profil complet du propriétaire du jeton, avec ses dépôts privés
       const me = await get('https://api.github.com/user', token);
       if (me.login.toLowerCase() === user.toLowerCase()) {
-        return { public: me.public_repos, private: me.owned_private_repos ?? me.total_private_repos ?? null };
+        const priv = me.owned_private_repos ?? me.total_private_repos ?? (await countPrivate(token).catch(() => null));
+        return { public: me.public_repos, private: priv };
       }
     }
     const profile = await get(`https://api.github.com/users/${user}`, token);
