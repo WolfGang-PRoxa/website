@@ -68,3 +68,31 @@ export const initNavigation = () => {
   const year = $('#year');
   if (year) year.textContent = String(new Date().getFullYear());
 };
+
+/* Menu des sections sur téléphone (sous 900px, les liens ne tiennent plus dans la barre) */
+export const initMenu = () => {
+  const nav = $('.nav');
+  const button = $<HTMLButtonElement>('#menu-toggle');
+  const panel = $('#nav-links');
+  if (!nav || !button || !panel) return;
+
+  const setOpen = (open: boolean, focusButton = false) => {
+    nav.classList.toggle('is-open', open);
+    button.setAttribute('aria-expanded', String(open));
+    if (focusButton) button.focus();
+  };
+  button.addEventListener('click', () => {
+    const open = !nav.classList.contains('is-open');
+    setOpen(open);
+    if (open) $('a', panel)?.focus({ preventScroll: true });
+  });
+  // Un lien choisi, Échap, un toucher ailleurs ou le passage en grand écran referment le menu
+  panel.addEventListener('click', (e) => { if ((e.target as Element).closest('a')) setOpen(false); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && nav.classList.contains('is-open')) setOpen(false, true);
+  });
+  document.addEventListener('pointerdown', (e) => {
+    if (nav.classList.contains('is-open') && !(e.target as Element).closest('#nav-links, #menu-toggle')) setOpen(false);
+  }, { passive: true });
+  window.matchMedia('(min-width: 901px)').addEventListener('change', (e) => { if (e.matches) setOpen(false); });
+};

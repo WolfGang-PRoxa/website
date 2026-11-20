@@ -5,6 +5,13 @@ export interface ClientDict {
   noDescription: string;
   error: string;
   errorLink: string;
+  /** Annonce pour les lecteurs d'écran après un filtre ({n} = nombre de dépôts) */
+  shown?: { one: string; other: string };
+  /** Liens des cartes de dépôt */
+  source?: string;
+  download?: string;
+  /** Bouton de pause des animations */
+  motion?: { pause: string; play: string };
   /** Calendrier des contributions ({n} = nombre) */
   contrib?: { one: string; other: string; none: string; total: string };
   /** Titre et description affichés à la place de ceux de GitHub */
@@ -13,7 +20,7 @@ export interface ClientDict {
 
 /** Dictionnaire complet d'une langue */
 export interface Dict {
-  meta: { title: string; description: string; ogLocale: string };
+  meta: { title: string; description: string; ogLocale: string; ogLocaleAlt: string; ogImageAlt: string };
   client: ClientDict;
   [section: string]: unknown;
 }
@@ -31,4 +38,12 @@ export interface Repo {
   private: boolean;
   archived: boolean;
   icon?: string | null;
+  /** Dernière release (null : aucune) */
+  release?: Release | null;
+}
+
+/** Dernière release d'un dépôt : son tag et le nombre de fichiers joints à télécharger */
+export interface Release {
+  tag: string;
+  assets: number;
 }

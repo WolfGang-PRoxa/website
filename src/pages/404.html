@@ -1,0 +1,14 @@
+  <main id="main" tabindex="-1">
+    <section class="notfound container">
+      <p class="notfound__code reveal" style="--i:1" aria-hidden="true">404</p>
+      <h1 class="notfound__title reveal" style="--i:2" data-i18n="notFound.title">{{ notFound.title }}</h1>
+      <p class="hero__lead reveal" style="--i:3" data-i18n="notFound.text">{{ notFound.text }}</p>
+      <div class="hero__cta reveal" style="--i:4">
+        <a class="btn btn--primary magnetic" href="/{{ lang }}/">
+          <span data-i18n="notFound.home">{{ notFound.home }}</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn btn--ghost magnetic" href="/{{ lang }}/#projects" data-i18n="notFound.projects">{{ notFound.projects }}</a>
+      </div>
+    </section>
+  </main>

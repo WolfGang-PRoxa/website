@@ -10,20 +10,24 @@ It showcases my featured projects and lists all my public GitHub repositories, w
 
 - [Vite](https://vite.dev) and TypeScript, with no UI framework: the pages are pre-rendered at build time and the script stays small.
 - Fonts are self-hosted, and every built file has a content hash in its name, so it can be cached for a year.
-- Hosted on Cloudflare Pages, with a Pages Function that serves the right language on `/`.
+- Hosted on Cloudflare Pages, with Pages Functions for the language on `/`, redirects and fresh GitHub data.
+- Repositories are written into the page at build time: they show up even without JavaScript, then refresh live.
+- Strict security headers (HSTS, and a CSP with the hashes of inline scripts, computed at build time).
 
 ## Project structure
 
 | Path | Contents |
 | --- | --- |
-| `src/template.html` | Page template, with `{{ key }}` placeholders for the text |
+| `src/pages/` | Pages (`home`, `legal`, `404`) and the shared layout (`_layout.html`), with `{{ key }}` placeholders for the text |
+| `src/partials/` | Shared pieces: `<head>`, navigation bar, footer |
 | `src/i18n/` | Translations (`en.json`, `fr.json`) |
-| `src/main.ts`, `src/modules/` | Scripts: theme, language switch, scroll animations, repositories… |
+| `src/main.ts`, `src/modules/`, `src/lib/` | Scripts: theme, language switch, menu, scroll animations, repositories… |
 | `src/styles/` | Styles |
-| `public/` | Files served as is: icons, favicon, `robots.txt`, `sitemap.xml`, `llms.txt`, `_headers` |
-| `scripts/pages.ts` | Vite plugin: renders `/en/` and `/fr/` from the template and fetches my public repositories |
+| `public/` | Files served as is: icons, social images, `robots.txt`, `llms.txt`, `_headers`, `_routes.json` |
+| `scripts/pages.ts` | Vite plugin: renders every page in each language with my public repositories and project versions, then writes the sitemap and the CSP |
 | `functions/index.ts` | Picks the language for `/` (FR / EN choice first, then country, English by default) |
-| `Web Sites/` | My earlier websites, kept for reference and no longer published |
+| `functions/_middleware.ts` | Redirects `www.romainpiau.dev` and `romainpiau.pages.dev` to `romainpiau.dev` |
+| `functions/api/` | `/api/repos` (repositories, refreshed hourly) and `/api/contributions` (GitHub calendar) |
 
 ## Run it locally
 
@@ -49,6 +53,14 @@ Every push to `main` is deployed to Cloudflare Pages automatically, and every ot
 | Build output directory | `dist` |
 | Root directory | *(empty)* |
 
+## Optional variable
+
+`GITHUB_TOKEN` (build and Functions): a read-only GitHub token avoids the public API limit of 60 requests per hour.
+
 ## Adding a language
 
-Add `src/i18n/<code>.json` with the same keys as `en.json`, add a link to the language switch in `src/template.html`, then list the code in `LANGS` (and its countries) in `functions/index.ts`.
+Add `src/i18n/<code>.json` with the same keys as `en.json`, add a link to the language switch in `src/partials/nav.html`, list the code in `LANGS` (and its countries) in `functions/index.ts`, then add it to `public/_routes.json` and to `LANG_PREFIX` in `src/modules/language.ts`.
+
+## License
+
+The code is under the [MIT license](LICENSE). The text and visuals remain mine.

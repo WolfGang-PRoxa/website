@@ -58,6 +58,7 @@ export const onRequestGet = async ({ request, waitUntil }: Context): Promise<Res
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
         'Cache-Control': `public, max-age=${TTL}`,
+        'X-Content-Type-Options': 'nosniff',
       },
     });
     waitUntil(cache.put(key, response.clone()));

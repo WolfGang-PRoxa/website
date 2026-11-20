@@ -2,17 +2,21 @@
   "meta": {
     "title": "Romain Piau · Développeur",
     "description": "Mon portfolio : applications de bureau, outils pour développeurs et projets open source.",
-    "ogLocale": "fr_FR"
+    "ogLocale": "fr_FR",
+    "ogLocaleAlt": "en_US",
+    "ogImageAlt": "Romain Piau, développeur : applications de bureau, outils pour développeurs et projets Minecraft."
   },
   "nav": {
-    "home": "Accueil",
+    "home": "romainpiau.dev, accueil",
     "label": "Navigation principale",
     "projects": "Projets",
     "repos": "Dépôts",
     "stack": "Stack",
     "contact": "Contact",
     "language": "Langue",
-    "theme": "Changer de thème"
+    "theme": "Changer de thème",
+    "skip": "Aller au contenu",
+    "menu": "Menu des sections"
   },
   "hero": {
     "line1": "Je conçois des",
@@ -23,8 +27,7 @@
     "ctaContact": "Me contacter"
   },
   "stats": {
-    "repos": "Dépôts publics",
-    "langs": "Langages",
+    "years": "Années de code",
     "lastPush": "Dernier commit",
     "activity": "Activité"
   },
@@ -75,12 +78,14 @@
     "kicker": "04 · Contact",
     "title": "Un projet en tête ?",
     "sub": "Une idée d'application, un outil à construire ou simplement une question : parlons-en.",
+    "email": "M'écrire un e-mail",
     "linkedin": "Me contacter sur LinkedIn",
     "github": "Mon GitHub"
   },
   "footer": {
     "hosted": "Hébergé sur Cloudflare Pages",
-    "top": "Haut de page"
+    "top": "Haut de page",
+    "legal": "Mentions légales"
   },
   "client": {
     "locale": "fr-FR",
@@ -88,6 +93,7 @@
     "noDescription": "Pas encore de description.",
     "error": "Impossible de charger les dépôts pour le moment.",
     "errorLink": "Les voir sur GitHub ↗",
+    "download": "Télécharger",
     "repos": {
       "minecraft-modding-manager": {
         "title": "Modding Manager",
@@ -101,13 +107,18 @@
         "title": "romainpiau.dev",
         "description": "Le code source de ce site, déployé sur Cloudflare Pages."
       },
-      "undercover-scriptable": {
+      "undercover-app": {
         "title": "Undercover",
         "description": "Le jeu de soirée Undercover sur iPhone, dans l'app Scriptable."
       },
-      "interactive-music-player-legal": {
-        "title": "Interactive Music Player · Légal",
-        "description": "Conditions d'utilisation et politique de confidentialité d'un bot musical Discord auto-hébergé."
+      "lma": {
+        "title": "LMA"
+      },
+      "ula": {
+        "title": "ULA"
+      },
+      "universal-learn-academy": {
+        "description": "Plateforme d'apprentissage en ligne pour apprendre n'importe quel sujet, à son rythme, dans un seul environnement."
       }
     },
     "contrib": {
@@ -115,6 +126,34 @@
       "other": "{n} contributions",
       "none": "Aucune contribution",
       "total": "{n} contributions sur les 12 derniers mois"
+    },
+    "shown": {
+      "one": "{n} dépôt affiché",
+      "other": "{n} dépôts affichés"
+    },
+    "motion": {
+      "pause": "Mettre les animations en pause",
+      "play": "Relancer les animations"
     }
+  },
+  "notFound": {
+    "meta": {
+      "title": "Page introuvable · Romain Piau",
+      "description": "Cette page n'existe pas ou a été déplacée."
+    },
+    "title": "Cette page n’existe pas.",
+    "text": "Le lien est peut-être ancien ou mal recopié. Tout le reste du site est à un clic.",
+    "home": "Revenir à l'accueil",
+    "projects": "Voir mes projets"
+  },
+  "legal": {
+    "meta": {
+      "title": "Mentions légales et confidentialité · Romain Piau",
+      "description": "Éditeur, hébergeur et données personnelles du site romainpiau.dev."
+    },
+    "kicker": "Informations légales",
+    "title": "Mentions légales et confidentialité",
+    "updated": "Mise à jour le 20 novembre 2026.",
+    "body": "<h2>Éditeur du site</h2><p>Ce site personnel est édité par <strong>Romain Piau</strong>, à titre non professionnel. Romain Piau en est aussi le responsable de la publication.</p><p>Contact : <a data-mail-user=\"romainpiau10\" data-mail-domain=\"gmail.com\" data-mail-show href=\"#\">romainpiau10 (arobase) gmail.com</a>, ou par message sur <a href=\"https://www.linkedin.com/in/romain-piau-b63862449/\" target=\"_blank\" rel=\"noopener\">LinkedIn</a>.</p><h2>Hébergeur</h2><p>Cloudflare, Inc., 101 Townsend St, San Francisco, CA 94107, États-Unis. <a href=\"https://www.cloudflare.com\" target=\"_blank\" rel=\"noopener\">cloudflare.com</a></p><h2>Propriété intellectuelle</h2><p>Les textes et visuels de ce site appartiennent à Romain Piau, sauf mention contraire. Son code source est publié sous <a href=\"https://github.com/WolfGang-PRoxa/website/blob/main/LICENSE\" target=\"_blank\" rel=\"noopener\">licence MIT</a>. Minecraft, CurseForge, Modrinth, GitHub et LinkedIn sont des marques de leurs propriétaires respectifs ; ce site n’est affilié à aucun d’eux.</p><h2>Données personnelles</h2><p>Ce site ne demande aucune information et ne dépose aucun cookie publicitaire ni de suivi. Il n’y a donc pas de bandeau de consentement.</p><ul><li><strong>Mesure d’audience</strong> : Cloudflare Web Analytics compte les visites de façon agrégée, sans cookie ni identifiant.</li><li><strong>Langue</strong> : à l’arrivée sur la page d’accueil, le pays déduit de votre adresse IP par Cloudflare sert à choisir le français ou l’anglais. Il n’est pas conservé par le site.</li><li><strong>Cookie <code>lang</code></strong> : il retient la langue que vous choisissez avec le bouton FR / EN, pendant un an. Il est nécessaire au service que vous demandez.</li><li><strong>Thème et animations</strong> : vos choix de thème clair ou sombre et de pause des animations restent dans votre navigateur (stockage local). Ils ne sont jamais envoyés.</li><li><strong>Hébergement</strong> : comme tout hébergeur, Cloudflare traite votre adresse IP pour délivrer les pages et protéger le site.</li><li><strong>GitHub</strong> : si la liste des dépôts ne peut pas être chargée depuis le site, votre navigateur la demande directement à GitHub, qui reçoit alors votre adresse IP.</li></ul><p>Pour toute question sur vos données, écrivez-moi par e-mail ou via LinkedIn. Vous pouvez aussi adresser une réclamation à la <a href=\"https://www.cnil.fr\" target=\"_blank\" rel=\"noopener\">CNIL</a>.</p>"
   }
 }

@@ -6,8 +6,7 @@ export const $$ = <E extends Element = HTMLElement>(selector: string, root: Pare
 
 export const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-const ENTITIES: Record<string, string> = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
-export const escapeHtml = (value: unknown): string => String(value).replace(/[&<>"']/g, (c) => ENTITIES[c]);
+export { escapeHtml } from './repo-card';
 
 /** Décode les entités HTML d'un texte (ex. « &amp; » → « & ») */
 export const decodeHtml = (html: string): string => {

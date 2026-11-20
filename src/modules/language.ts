@@ -3,10 +3,23 @@ import { getPath, i18n, loadDict } from '../lib/i18n';
 import type { Dict } from '../types';
 
 /* Bascule FR / EN sans recharger la page.
-   Les deux pages /fr/ et /en/ existent toujours (référencement, liens directs) : on remplace
-   seulement les textes et on met l'adresse à jour. */
+   Chaque page existe dans les deux langues (/fr/…, /en/…) pour le référencement et les liens
+   directs : on remplace seulement les textes et on met l'adresse à jour.
+   La page 404 est unique : elle prend la langue du visiteur, sans changer d'adresse. */
 
 const SITE = 'https://romainpiau.dev';
+const page = document.body.dataset.page || 'home';
+const isNotFound = page === '404';
+const LANG_PREFIX = /^\/(fr|en)\//;
+
+// Textes de <head> propres à la page (les autres pages complètent ceux de l'accueil)
+const pageMeta = (dict: Dict): Dict['meta'] => {
+  const extra = { legal: (dict.legal as { meta?: object })?.meta, 404: (dict.notFound as { meta?: object })?.meta }[page];
+  return { ...dict.meta, ...(extra || {}) };
+};
+
+/** Chemin de la page courante dans une autre langue */
+const pathIn = (lang: string) => location.pathname.replace(LANG_PREFIX, `/${lang}/`);
 
 // Fondu flouté sur les textes qui changent
 const fade = (els: Element[], out: boolean) =>
@@ -30,16 +43,26 @@ const applyDict = (lang: string, dict: Dict) => {
     const v = getPath(dict, el.dataset.i18nAria!);
     if (typeof v === 'string') el.setAttribute('aria-label', decodeHtml(v));
   });
-  const title = decodeHtml(dict.meta.title);
-  const description = decodeHtml(dict.meta.description);
-  const url = `${SITE}/${lang}/`;
+  // Liens internes vers une page dans une langue (pied de page, 404…) : vers la même page dans la nouvelle langue
+  $$<HTMLAnchorElement>('a[href^="/fr/"], a[href^="/en/"]').forEach((a) => {
+    if (!a.closest('.lang-switch')) a.setAttribute('href', a.getAttribute('href')!.replace(LANG_PREFIX, `/${lang}/`));
+  });
+  const meta = pageMeta(dict);
+  const title = decodeHtml(meta.title);
+  const description = decodeHtml(meta.description);
   document.title = title;
   setMeta('meta[name="description"]', 'content', description);
   setMeta('meta[property="og:title"]', 'content', title);
   setMeta('meta[property="og:description"]', 'content', description);
-  setMeta('meta[property="og:locale"]', 'content', dict.meta.ogLocale);
-  setMeta('meta[property="og:url"]', 'content', url);
-  setMeta('link[rel="canonical"]', 'href', url);
+  setMeta('meta[property="og:locale"]', 'content', meta.ogLocale);
+  setMeta('meta[property="og:locale:alternate"]', 'content', meta.ogLocaleAlt);
+  setMeta('meta[property="og:image"]', 'content', `${SITE}/og/${lang}.png`);
+  setMeta('meta[property="og:image:alt"]', 'content', decodeHtml(meta.ogImageAlt));
+  if (!isNotFound) {
+    const url = `${SITE}${pathIn(lang)}`;
+    setMeta('meta[property="og:url"]', 'content', url);
+    setMeta('link[rel="canonical"]', 'href', url);
+  }
   i18n.set(lang, dict); // met à jour les contenus dynamiques (dépôts…)
 };
 
@@ -51,10 +74,10 @@ export const initLanguage = () => {
     if (group) group.dataset.active = lang; // la pastille glisse vers la langue choisie
   };
 
-  const switchTo = async (link: HTMLAnchorElement, push: boolean) => {
+  const switchTo = async (link: HTMLAnchorElement, push: boolean, remember = true) => {
     const lang = link.dataset.lang!;
     if (lang === i18n.lang) return;
-    document.cookie = `lang=${lang}; path=/; max-age=31536000; samesite=lax`;
+    if (remember) document.cookie = `lang=${lang}; path=/; max-age=31536000; samesite=lax`;
     markActive(lang);
 
     let dict: Dict;
@@ -72,7 +95,7 @@ export const initLanguage = () => {
     });
     if (!reduceMotion) await fade(visible, true);
     applyDict(lang, dict);
-    if (push) history.pushState({ lang }, '', `/${lang}/${location.hash}`);
+    if (push && !isNotFound) history.pushState({ lang }, '', `${pathIn(lang)}${location.hash}`);
     if (!reduceMotion) {
       await fade(visible, false);
       visible.forEach((el) => el.getAnimations().forEach((a) => a.cancel()));
@@ -91,9 +114,18 @@ export const initLanguage = () => {
     }, { once: true });
   });
 
+  // Page 404 : dans la langue choisie auparavant, celle de l'adresse demandée ou celle du navigateur
+  if (isNotFound) {
+    const wanted = /(?:^|;\s*)lang=([a-z]{2})/.exec(document.cookie)?.[1]
+      || LANG_PREFIX.exec(location.pathname)?.[1]
+      || (navigator.language || '').slice(0, 2).toLowerCase();
+    const link = links.find((l) => l.dataset.lang === wanted);
+    if (link) switchTo(link, false, false);
+  }
+
   // Boutons précédent / suivant du navigateur
   window.addEventListener('popstate', () => {
-    const lang = /^\/([a-z]{2})\//.exec(location.pathname)?.[1];
+    const lang = LANG_PREFIX.exec(location.pathname)?.[1];
     const link = links.find((l) => l.dataset.lang === lang);
     if (link) switchTo(link, false);
   });

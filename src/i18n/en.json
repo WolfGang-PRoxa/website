@@ -2,17 +2,21 @@
   "meta": {
     "title": "Romain Piau · Developer",
     "description": "My portfolio: desktop apps, developer tools and open source projects.",
-    "ogLocale": "en_US"
+    "ogLocale": "en_US",
+    "ogLocaleAlt": "fr_FR",
+    "ogImageAlt": "Romain Piau, developer: desktop apps, developer tools and Minecraft projects."
   },
   "nav": {
-    "home": "Home",
+    "home": "romainpiau.dev, home",
     "label": "Main navigation",
     "projects": "Projects",
     "repos": "Repositories",
     "stack": "Stack",
     "contact": "Contact",
     "language": "Language",
-    "theme": "Toggle theme"
+    "theme": "Toggle theme",
+    "skip": "Skip to content",
+    "menu": "Sections menu"
   },
   "hero": {
     "line1": "I build",
@@ -23,8 +27,7 @@
     "ctaContact": "Get in touch"
   },
   "stats": {
-    "repos": "Public repos",
-    "langs": "Languages",
+    "years": "Years of coding",
     "lastPush": "Last commit",
     "activity": "Activity"
   },
@@ -75,12 +78,14 @@
     "kicker": "04 · Contact",
     "title": "Got a project in mind?",
     "sub": "An app idea, a tool to build or just a question: let's talk.",
+    "email": "Email me",
     "linkedin": "Connect on LinkedIn",
     "github": "My GitHub"
   },
   "footer": {
     "hosted": "Hosted on Cloudflare Pages",
-    "top": "Back to top"
+    "top": "Back to top",
+    "legal": "Legal notice"
   },
   "client": {
     "locale": "en-US",
@@ -88,6 +93,7 @@
     "noDescription": "No description yet.",
     "error": "Couldn't load the repositories right now.",
     "errorLink": "See them on GitHub ↗",
+    "download": "Download",
     "repos": {
       "minecraft-modding-manager": {
         "title": "Modding Manager",
@@ -101,13 +107,15 @@
         "title": "romainpiau.dev",
         "description": "The source code of this website, deployed on Cloudflare Pages."
       },
-      "undercover-scriptable": {
+      "undercover-app": {
         "title": "Undercover",
         "description": "The Undercover party game on iPhone, inside the Scriptable app."
       },
-      "interactive-music-player-legal": {
-        "title": "Interactive Music Player · Legal",
-        "description": "Terms of Service and Privacy Policy for a self-hosted Discord music bot."
+      "lma": {
+        "title": "LMA"
+      },
+      "ula": {
+        "title": "ULA"
       }
     },
     "contrib": {
@@ -115,6 +123,34 @@
       "other": "{n} contributions",
       "none": "No contributions",
       "total": "{n} contributions in the last year"
+    },
+    "shown": {
+      "one": "{n} repository shown",
+      "other": "{n} repositories shown"
+    },
+    "motion": {
+      "pause": "Pause animations",
+      "play": "Resume animations"
     }
+  },
+  "notFound": {
+    "meta": {
+      "title": "Page not found · Romain Piau",
+      "description": "This page doesn't exist or has moved."
+    },
+    "title": "This page doesn’t exist.",
+    "text": "The link may be old or mistyped. Everything else on the site is one click away.",
+    "home": "Back to the home page",
+    "projects": "See my projects"
+  },
+  "legal": {
+    "meta": {
+      "title": "Legal notice and privacy · Romain Piau",
+      "description": "Publisher, host and personal data of the romainpiau.dev website."
+    },
+    "kicker": "Legal information",
+    "title": "Legal notice and privacy",
+    "updated": "Updated on November 20, 2026.",
+    "body": "<h2>Publisher</h2><p>This personal website is published by <strong>Romain Piau</strong>, in a non-professional capacity. Romain Piau is also responsible for its publication.</p><p>Contact: <a data-mail-user=\"romainpiau10\" data-mail-domain=\"gmail.com\" data-mail-show href=\"#\">romainpiau10 (at) gmail.com</a>, or send a message on <a href=\"https://www.linkedin.com/in/romain-piau-b63862449/\" target=\"_blank\" rel=\"noopener\">LinkedIn</a>.</p><h2>Host</h2><p>Cloudflare, Inc., 101 Townsend St, San Francisco, CA 94107, United States. <a href=\"https://www.cloudflare.com\" target=\"_blank\" rel=\"noopener\">cloudflare.com</a></p><h2>Intellectual property</h2><p>The text and visuals of this site belong to Romain Piau unless stated otherwise. Its source code is published under the <a href=\"https://github.com/WolfGang-PRoxa/website/blob/main/LICENSE\" target=\"_blank\" rel=\"noopener\">MIT license</a>. Minecraft, CurseForge, Modrinth, GitHub and LinkedIn are trademarks of their respective owners; this site is not affiliated with any of them.</p><h2>Personal data</h2><p>This site asks for no information and sets no advertising or tracking cookies, so there is no consent banner.</p><ul><li><strong>Analytics</strong>: Cloudflare Web Analytics counts visits in aggregate, with no cookie and no identifier.</li><li><strong>Language</strong>: when you land on the home page, the country Cloudflare infers from your IP address picks French or English. The site does not keep it.</li><li><strong><code>lang</code> cookie</strong>: it remembers the language you pick with the FR / EN switch, for one year. It is needed for the service you ask for.</li><li><strong>Theme and animations</strong>: your light or dark theme and animation pause choices stay in your browser (local storage). They are never sent anywhere.</li><li><strong>Hosting</strong>: like any host, Cloudflare processes your IP address to deliver the pages and protect the site.</li><li><strong>GitHub</strong>: if the list of repositories can't be loaded from this site, your browser requests it from GitHub directly, which then receives your IP address.</li></ul><p>For any question about your data, email me or message me on LinkedIn. You can also lodge a complaint with the <a href=\"https://www.cnil.fr/en\" target=\"_blank\" rel=\"noopener\">CNIL</a>, the French data protection authority.</p>"
   }
 }

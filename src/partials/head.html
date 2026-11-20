@@ -1,0 +1,31 @@
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ meta.title }}</title>
+  <meta name="description" content="{{ meta.description }}">
+  <meta name="theme-color" content="#09090f">
+  <meta property="og:site_name" content="Romain Piau">
+  <meta property="og:title" content="{{ meta.title }}">
+  <meta property="og:description" content="{{ meta.description }}">
+  <meta property="og:locale" content="{{ meta.ogLocale }}">
+  <meta property="og:locale:alternate" content="{{ meta.ogLocaleAlt }}">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://romainpiau.dev/og/{{ lang }}.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="{{ meta.ogImageAlt }}">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <script>
+    document.documentElement.classList.remove('no-js');
+    try {
+      var t = localStorage.getItem('theme');
+      if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+      else if (window.matchMedia('(prefers-color-scheme: light)').matches) document.documentElement.dataset.theme = 'light';
+      if (localStorage.getItem('motion') === 'paused') document.documentElement.classList.add('is-paused');
+    } catch (e) {}
+    if (document.documentElement.dataset.theme === 'light') document.querySelector('meta[name="theme-color"]').content = '#f7f7fb';
+  </script>
+  <script id="i18n-data" type="application/json">{{ json:client }}</script>

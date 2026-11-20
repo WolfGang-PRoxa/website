@@ -1,4 +1,26 @@
 import { $, $$, reduceMotion } from '../lib/dom';
+import { i18n } from '../lib/i18n';
+
+/* Pause des animations en boucle (bandeau, fond, dégradés) : bouton à côté du bandeau de la stack.
+   Le choix est gardé dans le navigateur et appliqué avant l'affichage (script de <head>). */
+const initMotionToggle = () => {
+  const button = $<HTMLButtonElement>('#motion-toggle');
+  if (!button) return;
+  const root = document.documentElement;
+  const sync = () => {
+    const paused = root.classList.contains('is-paused');
+    button.setAttribute('aria-pressed', String(paused));
+    const t = i18n.t.motion;
+    if (t) button.setAttribute('aria-label', paused ? t.play : t.pause);
+  };
+  sync();
+  i18n.onChange(sync);
+  button.addEventListener('click', () => {
+    const paused = root.classList.toggle('is-paused');
+    try { localStorage.setItem('motion', paused ? 'paused' : 'running'); } catch { /* stockage indisponible */ }
+    sync();
+  });
+};
 
 /** Halo qui suit la souris sur les cartes */
 export const bindSpotlight = (el: HTMLElement) => {
@@ -25,11 +47,17 @@ export const initEffects = () => {
     });
   }
 
-  // Bandeau défilant : contenu dupliqué pour une boucle sans couture
+  initMotionToggle();
+
+  // Bandeau défilant : contenu dupliqué pour une boucle sans couture (copie masquée aux lecteurs d'écran)
   const track = $('.marquee__track');
   const marquee = $('.marquee');
   if (!track || !marquee) return;
-  track.innerHTML += track.innerHTML;
+  [...track.children].forEach((child) => {
+    const copy = child.cloneNode(true) as HTMLElement;
+    copy.setAttribute('aria-hidden', 'true');
+    track.appendChild(copy);
+  });
   // Écrans tactiles : le bandeau défile, mais sans l'effet de survol
   if (reduceMotion || window.matchMedia('(hover: none)').matches) return;
 

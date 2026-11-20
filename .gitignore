@@ -1,5 +1,7 @@
 node_modules/
 dist/
-# Pages générées à partir de src/template.html
+# Pages générées à partir de src/pages/ (voir scripts/pages.ts)
 src/en/
 src/fr/
+src/404.html
+.wrangler/
