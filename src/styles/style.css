@@ -388,14 +388,17 @@ p { margin: 0; }
 @keyframes breathe { 50% { transform: translate(-50%, -55%) scale(1.1); } }
 
 /* ---------- Footer ---------- */
-.footer { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding-top: 4.5rem; padding-bottom: 2.5rem; color: var(--text-faint); font-size: .875rem; }
+/* Trois colonnes : mentions à gauche, liens sociaux au centre exact de la page, hébergeur à droite */
+.footer { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 1rem; padding-top: 4.5rem; padding-bottom: 2.5rem; color: var(--text-faint); font-size: .875rem; }
+.footer > p { margin: 0; }
+.footer__meta { justify-self: end; text-align: right; }
 .footer a:hover { color: var(--text); }
 .footer p > a, .footer__social a { display: inline-block; padding-block: .25rem; }
 .footer p > a { text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: .1875rem; }
 
 /* Retour en haut : séparateur en fondu avec une pastille au centre ; au survol,
    la flèche s'envole par le haut et revient par le bas */
-.footer__top { flex-basis: 100%; display: flex; align-items: center; gap: 1.25rem; margin-bottom: 1.75rem; }
+.footer__top { grid-column: 1 / -1; flex-basis: 100%; display: flex; align-items: center; gap: 1.25rem; margin-bottom: 1.75rem; }
 .footer__top::before, .footer__top::after { content: ""; flex: 1; height: 1px; background: linear-gradient(to right, transparent, var(--border-strong)); }
 .footer__top::after { background: linear-gradient(to left, transparent, var(--border-strong)); }
 .to-top {
@@ -638,7 +641,8 @@ html.has-scrollbar::-webkit-scrollbar { display: none; }
 .footer__social a { transition: color .2s; }
 /* Écran étroit : textes du pied de page centrés, les uns sous les autres */
 @media (max-width: 720px) {
-  .footer { flex-direction: column; align-items: center; gap: .5rem; text-align: justify; text-align-last: center; }
+  .footer { display: flex; flex-direction: column; align-items: center; gap: .5rem; text-align: justify; text-align-last: center; }
+  .footer__meta { text-align: inherit; }
   .footer__top { align-self: stretch; }
   .footer__social { justify-content: center; }
 }
