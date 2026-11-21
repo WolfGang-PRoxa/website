@@ -581,7 +581,7 @@ html.has-scrollbar::-webkit-scrollbar { display: none; }
 }
 ::view-transition-old(root) { z-index: 1; }
 ::view-transition-new(root) { z-index: 2; }
-/* Voile flou de la barre (téléphone seulement) : capturé à part dans le nouvel état seulement. Son groupe, découpé par
+/* Voile flou de la barre (téléphone, ou bandeau de la stack sous la barre) : capturé à part dans le nouvel état seulement. Son groupe, découpé par
    l'onde, floute en direct la nouvelle page ; hors de l'onde, l'ancienne capture garde son flou.
    (Nommé dès l'ancien état, le voile était dessiné plus grand et sans fondu juste avant la capture.) */
 .vt-blur.vt-new .nav.is-scrolled .nav__blur { view-transition-name: nav-blur; }
@@ -613,9 +613,12 @@ html.has-scrollbar::-webkit-scrollbar { display: none; }
   -webkit-mask-image: radial-gradient(circle at calc(var(--vt-x) - var(--vt-tx)) calc(var(--vt-y) - var(--vt-ty)), #000 var(--vt-r), transparent var(--vt-r));
   mask-image: radial-gradient(circle at calc(var(--vt-x) - var(--vt-tx)) calc(var(--vt-y) - var(--vt-ty)), #000 var(--vt-r), transparent var(--vt-r));
 }
+/* Hors de l'onde, sous la barre : --vt-nm reproduit le voile de l'ancienne barre (voir le script) */
 ::view-transition-old(stack-track) {
-  -webkit-mask-image: radial-gradient(circle at calc(var(--vt-x) - var(--vt-tx)) calc(var(--vt-y) - var(--vt-ty)), transparent var(--vt-r), #000 var(--vt-r));
-  mask-image: radial-gradient(circle at calc(var(--vt-x) - var(--vt-tx)) calc(var(--vt-y) - var(--vt-ty)), transparent var(--vt-r), #000 var(--vt-r));
+  -webkit-mask-image: radial-gradient(circle at calc(var(--vt-x) - var(--vt-tx)) calc(var(--vt-y) - var(--vt-ty)), transparent var(--vt-r), #000 var(--vt-r)), var(--vt-nm, linear-gradient(#000, #000));
+  mask-image: radial-gradient(circle at calc(var(--vt-x) - var(--vt-tx)) calc(var(--vt-y) - var(--vt-ty)), transparent var(--vt-r), #000 var(--vt-r)), var(--vt-nm, linear-gradient(#000, #000));
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
 }
 ::view-transition-group(nav-blur) { z-index: 2; }
 ::view-transition-group(nav-inner) { z-index: 3; }
