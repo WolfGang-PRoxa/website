@@ -150,7 +150,12 @@ export const renderPages = (src: string, site: string, data: BuildData): Record<
       };
       const file = page.single ? join(src, page.single) : join(src, lang, page.path, 'index.html');
       mkdirSync(dirname(file), { recursive: true });
-      writeFileSync(file, fill(template, ctx, `${page.name}, ${lang}`));
+      // Icônes écrites en dur dans les pages (projets principaux) : même adresse versionnée que dans les cartes
+      const html = Object.values(data.icons).reduce(
+        (out, url) => out.replaceAll(`"${url.split('?')[0]}"`, `"${url}"`),
+        fill(template, ctx, `${page.name}, ${lang}`),
+      );
+      writeFileSync(file, html);
       inputs[page.single ? page.name : `${lang}/${page.path}`.replace(/\/$/, '')] = file;
     }
   }
@@ -202,7 +207,8 @@ const loadBuildData = async ({ githubUser, iconsDir, featured, site }: Options, 
   const icons: Record<string, string> = {};
   for (const file of existsSync(iconsDir) ? readdirSync(iconsDir) : []) {
     const m = /^(.+)\.(webp|png|svg)$/.exec(file);
-    if (m) icons[m[1]] = `/icons/${file}`;
+    // ?v=<empreinte> : une icône remplacée s'affiche tout de suite malgré le cache (une semaine) de /icons/
+    if (m) icons[m[1]] = `/icons/${file}?v=${createHash('sha256').update(readFileSync(join(iconsDir, file))).digest('hex').slice(0, 8)}`;
   }
 
   // 2. dépôts publics : API GitHub, sinon la liste du site en ligne (dernier build réussi)
