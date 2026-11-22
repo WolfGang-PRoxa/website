@@ -1625,14 +1625,9 @@ html.has-scrollbar::-webkit-scrollbar {
 }
 
 /* ---------- Changement de thème (View Transitions) ---------- */
-/* Rayon de l'onde et position du bandeau de la stack : animés par le navigateur sur la couche
-   d'animation (et hérités par ses enfants), sans toucher au style de la page à chaque image. */
+/* Rayon de l'onde : animé par le navigateur sur la couche d'animation (et hérité par ses enfants),
+   sans toucher au style de la page à chaque image. */
 @property --vt-r {
-  syntax: '<length>';
-  inherits: true;
-  initial-value: 0px;
-}
-@property --vt-tx {
   syntax: '<length>';
   inherits: true;
   initial-value: 0px;
@@ -1658,7 +1653,7 @@ html.has-scrollbar::-webkit-scrollbar {
 ::view-transition-new(root) {
   z-index: 2;
 }
-/* Voile flou de la barre (téléphone, ou bandeau de la stack sous la barre) : capturé à part dans le nouvel état seulement. Son groupe, découpé par
+/* Voile flou de la barre (téléphone seulement) : capturé à part dans le nouvel état seulement. Son groupe, découpé par
    l'onde, floute en direct la nouvelle page ; hors de l'onde, l'ancienne capture garde son flou.
    (Nommé dès l'ancien état, le voile était dessiné plus grand et sans fondu juste avant la capture.) */
 .vt-blur.vt-new .nav.is-scrolled .nav__blur {
@@ -1695,56 +1690,10 @@ html.has-scrollbar::-webkit-scrollbar {
   -webkit-mask-image: linear-gradient(to bottom, #000 50%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 50%, transparent 100%);
 }
-/* Bandeau « Ma stack » : capturé à part et en pause pendant l'onde, pour que ses deux images restent
-   calées (en défilant, il se désynchronisait sur Safari). Les deux images se partagent le cercle,
-   et le groupe reprend le fondu des bords du bandeau. Il reste sous la barre de navigation. */
-.theme-switching.vt-stack .marquee__track {
-  view-transition-name: stack-track;
+/* Bandeau « Ma stack » : en pause pendant l'onde. Il reste dans la capture de la page, dont l'ancienne
+   image est figée : en continuant de défiler dans le nouvel état, il serait décalé d'un côté à l'autre. */
+.theme-switching .marquee__track {
   animation-play-state: paused;
-}
-::view-transition-group(stack-track) {
-  animation: none;
-  z-index: 1;
-  -webkit-mask: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent)
-    calc(var(--vt-ml, 0px) - var(--vt-tx)) 0 / var(--vt-mw, 100%) 100% no-repeat;
-  mask: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent) calc(var(--vt-ml, 0px) - var(--vt-tx)) 0 /
-    var(--vt-mw, 100%) 100% no-repeat;
-}
-::view-transition-old(stack-track),
-::view-transition-new(stack-track) {
-  animation: none;
-  mix-blend-mode: normal;
-}
-::view-transition-new(stack-track) {
-  -webkit-mask-image: radial-gradient(
-    circle at calc(var(--vt-x) - var(--vt-tx)) calc(var(--vt-y) - var(--vt-ty)),
-    #000 var(--vt-r),
-    transparent var(--vt-r)
-  );
-  mask-image: radial-gradient(
-    circle at calc(var(--vt-x) - var(--vt-tx)) calc(var(--vt-y) - var(--vt-ty)),
-    #000 var(--vt-r),
-    transparent var(--vt-r)
-  );
-}
-/* Hors de l'onde, sous la barre : --vt-nm reproduit le voile de l'ancienne barre (voir le script) */
-::view-transition-old(stack-track) {
-  -webkit-mask-image:
-    radial-gradient(
-      circle at calc(var(--vt-x) - var(--vt-tx)) calc(var(--vt-y) - var(--vt-ty)),
-      transparent var(--vt-r),
-      #000 var(--vt-r)
-    ),
-    var(--vt-nm, linear-gradient(#000, #000));
-  mask-image:
-    radial-gradient(
-      circle at calc(var(--vt-x) - var(--vt-tx)) calc(var(--vt-y) - var(--vt-ty)),
-      transparent var(--vt-r),
-      #000 var(--vt-r)
-    ),
-    var(--vt-nm, linear-gradient(#000, #000));
-  -webkit-mask-composite: source-in;
-  mask-composite: intersect;
 }
 ::view-transition-group(nav-blur) {
   z-index: 2;

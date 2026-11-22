@@ -79,17 +79,6 @@ export const initTheme = () => {
 
   const currentBg = () => getComputedStyle(root).getPropertyValue('--bg').trim();
 
-  /* Masque vertical qui reproduit le voile de la barre (voir .nav__blur) : fond d'opacité « a »
-     plein jusqu'à 45 %, puis vers transparent, le tout masqué de 50 % à 100 %. Le bandeau reste
-     visible à 1 - (opacité du voile). Positions en px dans l'image du bandeau (haut à trackTop). */
-  const navMask = (blur: DOMRect, trackTop: number) => {
-    const alpha = Number(/[\d.]+(?=\s*\)\s*$)/.exec(getComputedStyle(root).getPropertyValue('--nav-bg'))?.[0] ?? 0.75);
-    const stops = [0, 0.45, 0.5, 0.6, 0.7, 0.8, 0.9, 1].map((f) => {
-      const veil = alpha * Math.min(1, (1 - f) / 0.55) * Math.min(1, (1 - f) / 0.5);
-      return `rgb(0 0 0 / ${(1 - veil).toFixed(3)}) ${(blur.top + f * blur.height - trackTop).toFixed(1)}px`;
-    });
-    return `linear-gradient(to bottom, ${stops.join(', ')})`;
-  };
   const syncMeta = () => {
     themeMeta.content = currentBg();
   };
@@ -117,23 +106,14 @@ export const initTheme = () => {
     const radius = Math.hypot(Math.max(x, w - x), Math.max(y, h - y));
     const touch = coarse.matches;
 
-    // Bandeau « Ma stack » : capturé à part et mis en pause pendant l'onde (voir le CSS). En pause, ses
-    // deux images (ancien et nouveau thème) et ses masques restent calés quel que soit le navigateur ;
-    // le faire défiler pendant l'onde le désynchronisait sur Safari.
-    const marquee = $('.marquee');
-    const track = $('.marquee__track');
-    const trackAnim = track?.getAnimations()[0];
-    const stackBox = marquee?.getBoundingClientRect();
-    const withStack = !!(track && trackAnim && stackBox && stackBox.bottom > 0 && stackBox.top < h);
-
     // Éléments capturés à part (voir le CSS) ; ils partagent tous le même cercle
     // Le voile flou de la barre (et le contenu de la barre, qui doit rester au-dessus) est capturé
-    // à part sur téléphone, où la capture perd son flou, et sur ordinateur quand le bandeau de la stack
-    // passe sous la barre : capturé à part lui aussi, il serait sinon dessiné par-dessus la barre.
-    // Le reste du temps, sur ordinateur, la barre reste dans la capture de la page, sans calcul en plus.
-    const blurBox = $('.nav.is-scrolled .nav__blur')?.getBoundingClientRect() ?? null;
-    const stackUnderNav = !!(withStack && stackBox && blurBox && stackBox.top < blurBox.bottom);
-    const navBlur = touch || stackUnderNav ? blurBox : null;
+    // à part sur téléphone, où la capture perd son flou. Sur ordinateur, la barre reste dans la
+    // capture de la page, sans calcul en plus.
+    // Le bandeau « Ma stack », lui, reste dans la capture de la page et se met en pause pendant l'onde
+    // (voir le CSS) : l'ancienne capture est figée, il doit donc l'être aussi dans le nouvel état.
+    // (Capturé à part pour qu'il continue de défiler, il apparaissait à une autre position sur Safari.)
+    const navBlur = touch ? ($('.nav.is-scrolled .nav__blur')?.getBoundingClientRect() ?? null) : null;
     const navInner = navBlur ? ($('.nav__inner')?.getBoundingClientRect() ?? null) : null;
 
     // Valeurs fixes de l'animation, posées une seule fois (les changer à chaque image recalcule
@@ -143,14 +123,7 @@ export const initTheme = () => {
     const from = parseColor(currentBg());
     let to = from;
     vars({ x: `${x}px`, y: `${y}px`, old: mix(from, from, 0), new: mix(from, from, 0) });
-    if (withStack && stackBox) vars({ ml: `${stackBox.left}px`, mw: `${stackBox.width}px` });
-    // Hors de l'onde, la barre de l'ancien thème fait partie de la capture de la page, donc sous le
-    // bandeau : l'ancienne image du bandeau s'efface sous la barre comme derrière son voile (même
-    // dégradé, même opacité). Dans l'onde, c'est le voile capturé à part qui le recouvre et le floute.
-    if (stackUnderNav && blurBox && track) vars({ nm: navMask(blurBox, track.getBoundingClientRect().top) });
-
     root.classList.add('theme-switching'); // coupe les transitions CSS pendant la capture
-    root.classList.toggle('vt-stack', withStack);
     root.classList.toggle('vt-blur', !!navBlur);
     if (touch) body.style.backgroundColor = mix(from, from, 0); // le bas garde l'ancienne couleur
 
@@ -159,10 +132,6 @@ export const initTheme = () => {
       root.classList.add('vt-new');
       to = parseColor(currentBg());
       vars({ new: mix(to, to, 0) });
-      if (withStack && track) {
-        const box = track.getBoundingClientRect();
-        vars({ tx: `${box.left}px`, ty: `${box.top}px` });
-      }
     });
 
     // Téléphone : couleur des barres du navigateur, par paliers (chaque changement repeint la page)
@@ -211,22 +180,13 @@ export const initTheme = () => {
 
       current = [
         circle(x, y, '::view-transition-new(root)'),
-        // Rayon de l'onde, transmis au fond de la couche et au bandeau de la stack (voir le CSS)
+        // Rayon de l'onde, transmis au fond de la couche (voir le CSS)
         root.animate({ '--vt-r': ['0px', `${radius}px`] }, { ...timing, pseudoElement: '::view-transition' }),
         ...(navInner ? pair('nav-inner', navInner) : []),
         ...pair('theme-toggle', r),
-        // Voile : avec le bandeau dessous, seule la nouvelle teinte suit l'onde et le flou s'applique
-        // partout (il floute aussi l'ancienne image du bandeau) ; sinon tout le groupe suit l'onde,
-        // pour ne pas flouter une seconde fois l'ancienne capture, déjà floue sous la barre.
-        ...(navBlur
-          ? [
-              circle(
-                x - navBlur.left,
-                y - navBlur.top,
-                `::view-transition-${stackUnderNav ? 'new' : 'group'}(nav-blur)`,
-              ),
-            ]
-          : []),
+        // Voile : tout le groupe suit l'onde, pour ne pas flouter une seconde fois l'ancienne capture,
+        // déjà floue sous la barre.
+        ...(navBlur ? [circle(x - navBlur.left, y - navBlur.top, '::view-transition-group(nav-blur)')] : []),
       ];
 
       if (touch) follow();
@@ -235,11 +195,9 @@ export const initTheme = () => {
       /* transition interrompue : le thème est tout de même appliqué */
     } finally {
       cancelAnimationFrame(frame);
-      root.classList.remove('theme-switching', 'vt-stack', 'vt-blur', 'vt-new');
+      root.classList.remove('theme-switching', 'vt-blur', 'vt-new');
       body.style.backgroundColor = '';
-      ['x', 'y', 'old', 'new', 'ml', 'mw', 'tx', 'ty', 'nm'].forEach((name) =>
-        root.style.removeProperty(`--vt-${name}`),
-      );
+      ['x', 'y', 'old', 'new'].forEach((name) => root.style.removeProperty(`--vt-${name}`));
       syncMeta();
       current = [];
     }
