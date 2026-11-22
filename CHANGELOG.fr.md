@@ -7,6 +7,14 @@ Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 
 ## [Unreleased]
 
+### Ajouts
+
+- Prettier et ESLint, avec `npm run format`, `npm run lint` et `npm run check` (vérifications Prettier, ESLint et TypeScript).
+
+### Améliorations
+
+- TypeScript 6.0 au lieu de 7.0, car typescript-eslint ne prend pas encore en charge TypeScript 7.
+
 ## [2.0.0] - 2026-11-22
 
 Refonte complète du site, reconstruit de zéro avec Vite et TypeScript.

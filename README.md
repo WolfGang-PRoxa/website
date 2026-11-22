@@ -38,6 +38,9 @@ npm install
 npm run dev      # development server with live reload
 npm run build    # production build in dist/
 npm run preview  # serve the build
+npm run format   # format the code with Prettier
+npm run lint     # lint with ESLint
+npm run check    # Prettier, ESLint and TypeScript checks (run by the CI on every push)
 ```
 
 The dev server opens on `/en/` and `/fr/`. The automatic language detection only runs on Cloudflare.

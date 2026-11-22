@@ -7,6 +7,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Prettier and ESLint, with `npm run format`, `npm run lint` and `npm run check` (Prettier, ESLint and TypeScript checks).
+
+### Changed
+
+- TypeScript 6.0 instead of 7.0, because typescript-eslint does not support TypeScript 7 yet.
+
 ## [2.0.0] - 2026-11-22
 
 Complete redesign of the site, rebuilt from scratch with Vite and TypeScript.

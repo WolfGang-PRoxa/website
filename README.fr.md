@@ -38,6 +38,9 @@ npm install
 npm run dev      # serveur de développement avec rechargement automatique
 npm run build    # build de production dans dist/
 npm run preview  # sert le build
+npm run format   # formate le code avec Prettier
+npm run lint     # analyse le code avec ESLint
+npm run check    # vérifications Prettier, ESLint et TypeScript (lancées par la CI à chaque push)
 ```
 
 Le serveur de développement répond sur `/fr/` et `/en/`. La détection automatique de la langue ne fonctionne que sur Cloudflare.
