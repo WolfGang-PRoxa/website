@@ -227,6 +227,13 @@ export const initTheme = () => {
 
       if (withStack && stackBox && track && trackAnim) stackAnim = followTrack(stackBox.left, track, trackAnim);
       if (touch) follow();
+      // La copie du défilement tourne en boucle : la transition ne se terminerait jamais avec elle.
+      // On l'arrête quand l'onde a fini (clics rapides compris, qui l'accélèrent).
+      if (stackAnim) {
+        const wave = [...current];
+        await Promise.allSettled(wave.map((a) => a.finished));
+        stackAnim.cancel();
+      }
       await transition.finished;
     } catch {
       /* transition interrompue : le thème est tout de même appliqué */
