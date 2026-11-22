@@ -16,6 +16,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - TypeScript 6.0 instead of 7.0, because typescript-eslint does not support TypeScript 7 yet.
 
+### Fixed
+
+- The scrolling stack banner no longer jumps sideways while the light / dark theme animation plays.
+
 ## [2.0.0] - 2026-11-22
 
 Complete redesign of the site, rebuilt from scratch with Vite and TypeScript.

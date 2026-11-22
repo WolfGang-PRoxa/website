@@ -164,6 +164,7 @@ export const initTheme = () => {
     const far = Math.max(x, w - x);
     const edges = { top: [y, Math.hypot(far, y)], bottom: [h - y, Math.hypot(far, h - y)] };
     let frame = 0;
+    let stackAnim: Animation | undefined;
     let lastTop = -1;
     let lastBottom = -1;
     const follow = () => {
@@ -224,13 +225,14 @@ export const initTheme = () => {
           : []),
       ];
 
-      if (withStack && track && trackAnim) followTrack(track, trackAnim, duration);
+      if (withStack && stackBox && track && trackAnim) stackAnim = followTrack(stackBox.left, track, trackAnim);
       if (touch) follow();
       await transition.finished;
     } catch {
       /* transition interrompue : le thème est tout de même appliqué */
     } finally {
       cancelAnimationFrame(frame);
+      stackAnim?.cancel();
       root.classList.remove('theme-switching', 'vt-stack', 'vt-blur', 'vt-new');
       body.style.backgroundColor = '';
       ['x', 'y', 'old', 'new', 'ml', 'mw', 'ty', 'nm'].forEach((name) => root.style.removeProperty(`--vt-${name}`));
@@ -239,26 +241,30 @@ export const initTheme = () => {
     }
   };
 
-  /* Position du bandeau de la stack pendant l'onde, calculée d'avance : il défile à vitesse
-     constante (translateX de 0 à -50 % de sa largeur, en boucle), on en déduit sa trajectoire,
-     retour au début compris, et le navigateur l'anime tout seul. */
-  const followTrack = (track: HTMLElement, anim: Animation, duration: number) => {
-    const timing = anim.effect?.getComputedTiming();
-    const period = Number(timing?.duration) || 0;
-    const rate = anim.playState === 'running' ? anim.playbackRate : 0;
-    if (!period || !timing) return;
+  /* Position du bandeau de la stack pendant l'onde : une copie de son animation (translateX de 0
+     à -50 % de sa largeur, en boucle), calée sur la même horloge, déplace les masques avec lui.
+     Le point de départ est le bord gauche du bandeau au repos (celui de .marquee), et non sa
+     position mesurée au lancement de l'onde : la mesure peut dater de la capture, plusieurs images
+     plus tôt, et les masques avaient alors un temps de retard (le bandeau semblait sauter). */
+  const followTrack = (marqueeLeft: number, track: HTMLElement, anim: Animation) => {
+    const period = Number(anim.effect?.getComputedTiming().duration) || 0;
+    if (!period) return;
     const span = track.offsetWidth / 2; // course d'une boucle, en px
-    const p0 = timing.progress ?? 0;
-    const base = track.getBoundingClientRect().left + p0 * span; // position sans décalage
-    const at = (p: number) => `${base - (p % 1) * span}px`;
-    const end = p0 + (rate * duration) / period;
-    const frames: Keyframe[] = [{ offset: 0, '--vt-tx': at(p0) }];
-    if (end >= 1 && rate > 0) {
-      const wrap = ((1 - p0) * period) / rate / duration;
-      frames.push({ offset: wrap, '--vt-tx': `${base - span}px` }, { offset: wrap, '--vt-tx': `${base}px` });
+    const copy = root.animate([{ '--vt-tx': `${marqueeLeft}px` }, { '--vt-tx': `${marqueeLeft - span}px` }], {
+      duration: period,
+      iterations: Infinity,
+      pseudoElement: '::view-transition',
+    });
+    // Même heure de départ que l'animation du bandeau : une heure fixée rend la copie active tout
+    // de suite, au lieu d'attendre l'image suivante (souvent lente, juste après la capture).
+    if (anim.playState === 'running' && anim.startTime != null) {
+      copy.playbackRate = anim.playbackRate;
+      copy.startTime = anim.startTime;
+    } else {
+      copy.pause();
+      copy.currentTime = anim.currentTime;
     }
-    frames.push({ offset: 1, '--vt-tx': at(end) });
-    root.animate(frames, { duration, fill: 'forwards', pseudoElement: '::view-transition' });
+    return copy;
   };
 
   const run = async () => {

@@ -16,6 +16,10 @@ Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 
 - TypeScript 6.0 au lieu de 7.0, car typescript-eslint ne prend pas encore en charge TypeScript 7.
 
+### Corrections
+
+- Le bandeau défilant de la stack ne saute plus sur le côté pendant l'animation du thème jour / nuit.
+
 ## [2.0.0] - 2026-11-22
 
 Refonte complète du site, reconstruit de zéro avec Vite et TypeScript.
