@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Fixed
 
 - The scrolling stack banner no longer jumps sideways while the light / dark theme animation plays: it pauses during the animation.
+- The hidden "Skip to content" link no longer shows at the top of the page on iPhone.
 
 ## [2.0.0] - 2026-11-22
 

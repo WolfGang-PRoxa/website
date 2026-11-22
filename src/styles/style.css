@@ -1819,10 +1819,18 @@ html.has-scrollbar::-webkit-scrollbar {
   color: var(--bg);
   font-weight: 500;
   font-size: 0.875rem;
+  /* Invisible tant qu'il n'a pas le focus clavier : décalé vers le haut seulement, il restait visible
+     sur iPhone, où la page se prolonge sous la barre d'état. */
+  opacity: 0;
+  pointer-events: none;
   transform: translateY(-200%);
-  transition: transform 0.25s var(--ease);
+  transition:
+    transform 0.25s var(--ease),
+    opacity 0.25s var(--ease);
 }
 .skip-link:focus-visible {
+  opacity: 1;
+  pointer-events: auto;
   transform: none;
 }
 main:focus {
