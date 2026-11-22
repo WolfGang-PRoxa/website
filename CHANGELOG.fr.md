@@ -10,6 +10,7 @@ Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 ### Ajouts
 
 - Prettier et ESLint, avec `npm run format`, `npm run lint` et `npm run check` (vérifications Prettier, ESLint et TypeScript).
+- Intégration continue : GitHub Actions lance `npm run check` et `npm run build` à chaque push et pull request.
 
 ### Améliorations
 
