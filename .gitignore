@@ -5,3 +5,4 @@ src/en/
 src/fr/
 src/404.html
 .wrangler/
+.env
