@@ -14,11 +14,19 @@ let client = readInitial();
 const listeners = new Set<() => void>();
 
 export const i18n = {
-  get lang() { return lang; },
-  get t() { return client; },
-  get locale() { return client.locale || lang; },
+  get lang() {
+    return lang;
+  },
+  get t() {
+    return client;
+  },
+  get locale() {
+    return client.locale || lang;
+  },
   /** Appelé après chaque changement de langue */
-  onChange(fn: () => void) { listeners.add(fn); },
+  onChange(fn: () => void) {
+    listeners.add(fn);
+  },
   set(next: string, dict: Dict) {
     lang = next;
     client = dict.client;

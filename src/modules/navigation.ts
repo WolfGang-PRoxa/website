@@ -8,7 +8,10 @@ let stopScroll: (() => void) | null = null;
 const scrollToTop = (done: () => void) => {
   stopScroll?.();
   const start = window.scrollY;
-  if (start <= 0) { done(); return; }
+  if (start <= 0) {
+    done();
+    return;
+  }
   // Durée selon la distance : courte pour quelques écrans, plafonnée pour les longues pages
   const duration = Math.min(1400, 650 + start * 0.18);
   let frame = 0;
@@ -29,7 +32,9 @@ const scrollToTop = (done: () => void) => {
   };
   // L'utilisateur reprend la main dès qu'il fait défiler lui-même
   ['wheel', 'touchstart', 'keydown'].forEach((type) => addEventListener(type, finish, { passive: true }));
-  const timer = setTimeout(() => { frame = requestAnimationFrame(step); }, LAUNCH_DELAY);
+  const timer = setTimeout(() => {
+    frame = requestAnimationFrame(step);
+  }, LAUNCH_DELAY);
   stopScroll = finish;
 };
 
@@ -40,7 +45,10 @@ export const initNavigation = () => {
     a.addEventListener('click', (e) => {
       e.preventDefault();
       history.replaceState(history.state, '', location.pathname + location.search);
-      if (reduceMotion) { window.scrollTo({ top: 0, behavior: 'instant' }); return; }
+      if (reduceMotion) {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        return;
+      }
       a.classList.remove('is-launching');
       void a.offsetWidth; // relance l'animation de la flèche à chaque clic
       a.classList.add('is-launching');
@@ -56,12 +64,15 @@ export const initNavigation = () => {
 
   // Lien de la section en cours
   const links = $$<HTMLAnchorElement>('.nav__links a');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      links.forEach((a) => a.classList.toggle('is-active', a.getAttribute('href') === `#${entry.target.id}`));
-    });
-  }, { rootMargin: '-45% 0px -50% 0px' });
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        links.forEach((a) => a.classList.toggle('is-active', a.getAttribute('href') === `#${entry.target.id}`));
+      });
+    },
+    { rootMargin: '-45% 0px -50% 0px' },
+  );
   $$('main section[id]').forEach((s) => observer.observe(s));
 
   // Année du pied de page
@@ -87,12 +98,21 @@ export const initMenu = () => {
     if (open) $('a', panel)?.focus({ preventScroll: true });
   });
   // Un lien choisi, Échap, un toucher ailleurs ou le passage en grand écran referment le menu
-  panel.addEventListener('click', (e) => { if ((e.target as Element).closest('a')) setOpen(false); });
+  panel.addEventListener('click', (e) => {
+    if ((e.target as Element).closest('a')) setOpen(false);
+  });
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && nav.classList.contains('is-open')) setOpen(false, true);
   });
-  document.addEventListener('pointerdown', (e) => {
-    if (nav.classList.contains('is-open') && !(e.target as Element).closest('#nav-links, #menu-toggle')) setOpen(false);
-  }, { passive: true });
-  window.matchMedia('(min-width: 901px)').addEventListener('change', (e) => { if (e.matches) setOpen(false); });
+  document.addEventListener(
+    'pointerdown',
+    (e) => {
+      if (nav.classList.contains('is-open') && !(e.target as Element).closest('#nav-links, #menu-toggle'))
+        setOpen(false);
+    },
+    { passive: true },
+  );
+  window.matchMedia('(min-width: 901px)').addEventListener('change', (e) => {
+    if (e.matches) setOpen(false);
+  });
 };

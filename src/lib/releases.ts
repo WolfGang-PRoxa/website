@@ -10,7 +10,11 @@ const timeout = () => AbortSignal.timeout(10000);
 
 const viaApi = async (fullName: string, token: string): Promise<Release | null> => {
   const res = await fetch(`https://api.github.com/repos/${fullName}/releases/latest`, {
-    headers: { Accept: 'application/vnd.github+json', 'User-Agent': 'romainpiau.dev', Authorization: `Bearer ${token}` },
+    headers: {
+      Accept: 'application/vnd.github+json',
+      'User-Agent': 'romainpiau.dev',
+      Authorization: `Bearer ${token}`,
+    },
     signal: timeout(),
   });
   if (res.status === 404) return null; // aucune release
@@ -21,7 +25,10 @@ const viaApi = async (fullName: string, token: string): Promise<Release | null> 
 
 const viaPages = async (fullName: string): Promise<Release | null> => {
   const res = await fetch(`https://github.com/${fullName}/releases/latest`, {
-    method: 'HEAD', redirect: 'manual', headers: { 'User-Agent': 'romainpiau.dev' }, signal: timeout(),
+    method: 'HEAD',
+    redirect: 'manual',
+    headers: { 'User-Agent': 'romainpiau.dev' },
+    signal: timeout(),
   });
   const location = res.headers.get('location') || '';
   const tag = /\/releases\/tag\/([^/?#]+)/.exec(location)?.[1];
@@ -31,7 +38,8 @@ const viaPages = async (fullName: string): Promise<Release | null> => {
   }
   // Fichiers joints (hors archives du code source, ajoutées d'office par GitHub)
   const page = await fetch(`https://github.com/${fullName}/releases/expanded_assets/${tag}`, {
-    headers: { 'User-Agent': 'romainpiau.dev' }, signal: timeout(),
+    headers: { 'User-Agent': 'romainpiau.dev' },
+    signal: timeout(),
   });
   if (!page.ok) throw new Error(`GitHub ${page.status}`);
   const assets = new Set((await page.text()).match(/\/releases\/download\/[^"'\s]+/g) ?? []).size;

@@ -23,7 +23,13 @@ const parseColor = (value: string): RGB => {
 };
 
 const mix = (a: RGB, b: RGB, t: number) =>
-  `#${a.map((v, i) => Math.round(v + (b[i] - v) * t).toString(16).padStart(2, '0')).join('')}`;
+  `#${a
+    .map((v, i) =>
+      Math.round(v + (b[i] - v) * t)
+        .toString(16)
+        .padStart(2, '0'),
+    )
+    .join('')}`;
 
 /* Tout sauf un disque : le contour extérieur puis le cercle (polygone fin), en « evenodd ».
    Les deux images clés ont le même nombre de points : le navigateur les interpole directement. */
@@ -34,7 +40,13 @@ const holeClip = (cx: number, cy: number, r: number) => {
     const a = (i / HOLE_POINTS) * Math.PI * 2;
     return `${(cx + r * Math.cos(a)).toFixed(2)}px ${(cy + r * Math.sin(a)).toFixed(2)}px`;
   });
-  const outer = [`${-far}px ${-far}px`, `${far}px ${-far}px`, `${far}px ${far}px`, `${-far}px ${far}px`, `${-far}px ${-far}px`];
+  const outer = [
+    `${-far}px ${-far}px`,
+    `${far}px ${-far}px`,
+    `${far}px ${far}px`,
+    `${-far}px ${far}px`,
+    `${-far}px ${-far}px`,
+  ];
   return `polygon(evenodd, ${[...outer, ...ring, outer[0]].join(', ')})`;
 };
 
@@ -78,11 +90,17 @@ export const initTheme = () => {
     });
     return `linear-gradient(to bottom, ${stops.join(', ')})`;
   };
-  const syncMeta = () => { themeMeta.content = currentBg(); };
+  const syncMeta = () => {
+    themeMeta.content = currentBg();
+  };
 
   const apply = (theme: string) => {
     root.dataset.theme = theme;
-    try { localStorage.setItem('theme', theme); } catch { /* stockage indisponible */ }
+    try {
+      localStorage.setItem('theme', theme);
+    } catch {
+      /* stockage indisponible */
+    }
   };
   const flip = () => apply(root.dataset.theme === 'dark' ? 'light' : 'dark');
 
@@ -114,7 +132,7 @@ export const initTheme = () => {
     const blurBox = $('.nav.is-scrolled .nav__blur')?.getBoundingClientRect() ?? null;
     const stackUnderNav = !!(withStack && stackBox && blurBox && stackBox.top < blurBox.bottom);
     const navBlur = touch || stackUnderNav ? blurBox : null;
-    const navInner = navBlur ? $('.nav__inner')?.getBoundingClientRect() ?? null : null;
+    const navInner = navBlur ? ($('.nav__inner')?.getBoundingClientRect() ?? null) : null;
 
     // Valeurs fixes de l'animation, posées une seule fois (les changer à chaque image recalcule
     // le style de toute la page) : ce qui bouge est animé par le navigateur, voir plus bas.
@@ -152,11 +170,18 @@ export const initTheme = () => {
       const progress = current[0]?.effect?.getComputedTiming().progress;
       if (progress != null) {
         const reach = radius * progress;
-        const step = ([start, end]: number[]) => Math.round(clamp01((reach - start) / Math.max(1, end - start)) * 8) / 8;
+        const step = ([start, end]: number[]) =>
+          Math.round(clamp01((reach - start) / Math.max(1, end - start)) * 8) / 8;
         const top = step(edges.top);
         const bottom = step(edges.bottom);
-        if (top !== lastTop) { themeMeta.content = mix(from, to, top); lastTop = top; }
-        if (bottom !== lastBottom) { body.style.backgroundColor = mix(from, to, bottom); lastBottom = bottom; }
+        if (top !== lastTop) {
+          themeMeta.content = mix(from, to, top);
+          lastTop = top;
+        }
+        if (bottom !== lastBottom) {
+          body.style.backgroundColor = mix(from, to, bottom);
+          lastBottom = bottom;
+        }
       }
       frame = requestAnimationFrame(follow);
     };
@@ -166,15 +191,14 @@ export const initTheme = () => {
       // « forwards » : les découpes restent en place jusqu'au retrait des captures (sinon l'ancienne
       // image de la barre réapparaît entière une image avant la fin)
       const timing: KeyframeAnimationOptions = { duration, easing: 'cubic-bezier(.65, 0, .35, 1)', fill: 'forwards' };
-      const circle = (cx: number, cy: number, pseudoElement: string) => root.animate(
-        { clipPath: [`circle(0px at ${cx}px ${cy}px)`, `circle(${radius}px at ${cx}px ${cy}px)`] },
-        { ...timing, pseudoElement },
-      );
+      const circle = (cx: number, cy: number, pseudoElement: string) =>
+        root.animate(
+          { clipPath: [`circle(0px at ${cx}px ${cy}px)`, `circle(${radius}px at ${cx}px ${cy}px)`] },
+          { ...timing, pseudoElement },
+        );
       // Image translucide : l'ancienne doit disparaître là où passe l'onde, sinon elle reste visible dessous
-      const hole = (cx: number, cy: number, pseudoElement: string) => root.animate(
-        { clipPath: [holeClip(cx, cy, 0), holeClip(cx, cy, radius)] },
-        { ...timing, pseudoElement },
-      );
+      const hole = (cx: number, cy: number, pseudoElement: string) =>
+        root.animate({ clipPath: [holeClip(cx, cy, 0), holeClip(cx, cy, radius)] }, { ...timing, pseudoElement });
       const pair = (name: string, rect: DOMRect) => [
         circle(x - rect.left, y - rect.top, `::view-transition-new(${name})`),
         hole(x - rect.left, y - rect.top, `::view-transition-old(${name})`),
@@ -189,7 +213,15 @@ export const initTheme = () => {
         // Voile : avec le bandeau dessous, seule la nouvelle teinte suit l'onde et le flou s'applique
         // partout (il floute aussi l'ancienne image du bandeau) ; sinon tout le groupe suit l'onde,
         // pour ne pas flouter une seconde fois l'ancienne capture, déjà floue sous la barre.
-        ...(navBlur ? [circle(x - navBlur.left, y - navBlur.top, `::view-transition-${stackUnderNav ? 'new' : 'group'}(nav-blur)`)] : []),
+        ...(navBlur
+          ? [
+              circle(
+                x - navBlur.left,
+                y - navBlur.top,
+                `::view-transition-${stackUnderNav ? 'new' : 'group'}(nav-blur)`,
+              ),
+            ]
+          : []),
       ];
 
       if (withStack && track && trackAnim) followTrack(track, trackAnim, duration);
@@ -241,7 +273,11 @@ export const initTheme = () => {
   };
 
   button.addEventListener('click', () => {
-    if (!document.startViewTransition || reduceMotion) { flip(); syncMeta(); return; }
+    if (!document.startViewTransition || reduceMotion) {
+      flip();
+      syncMeta();
+      return;
+    }
     pending++;
     // Un clic pendant une propagation accélère aussi celle en cours
     current.forEach((a) => a.updatePlaybackRate(Math.min(3, 1 + pending * 0.6)));

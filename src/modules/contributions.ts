@@ -33,12 +33,13 @@ const fill = (template: string, n: number) => template.replace('{n}', n.toLocale
 const countLabel = (n: number) => {
   const t = i18n.t.contrib;
   if (!n) return t?.none ?? 'No contributions';
-  return fill(n === 1 ? t?.one ?? '{n} contribution' : t?.other ?? '{n} contributions', n);
+  return fill(n === 1 ? (t?.one ?? '{n} contribution') : (t?.other ?? '{n} contributions'), n);
 };
 
 const dateLabel = (iso: string) =>
-  new Intl.DateTimeFormat(i18n.locale, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })
-    .format(new Date(`${iso}T00:00:00Z`));
+  new Intl.DateTimeFormat(i18n.locale, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(
+    new Date(`${iso}T00:00:00Z`),
+  );
 
 export const initContributions = async () => {
   const stat = $('.stat--activity');
@@ -94,7 +95,9 @@ export const initContributions = async () => {
       if (col < 0) return;
       const row = pos % 7;
       const x = weeks > 1 ? Math.round((col / (weeks - 1)) * 100) : 0;
-      cells.push(`<i data-l="${day.level}" data-i="${idx}" style="grid-area:${row + 1}/${col + 1};--x:${x}%;--col:${col};--row:${row}"></i>`);
+      cells.push(
+        `<i data-l="${day.level}" data-i="${idx}" style="grid-area:${row + 1}/${col + 1};--x:${x}%;--col:${col};--row:${row}"></i>`,
+      );
     });
     grid.innerHTML = cells.join('');
     if (first && !reduceMotion) {
@@ -147,7 +150,9 @@ export const initContributions = async () => {
     const cell = cellAt(e);
     if (cell) showTip(cell);
   });
-  grid.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') hideTip(); });
+  grid.addEventListener('pointerleave', (e) => {
+    if (e.pointerType === 'mouse') hideTip();
+  });
 
   // Un « toucher » = appui puis relâchement presque au même endroit (pas un glissement).
   // On n'utilise pas « click » : Safari sur iPhone ne l'envoie pas sur ces cases.
@@ -157,14 +162,19 @@ export const initContributions = async () => {
   grid.addEventListener('pointerdown', (e) => {
     down = e.pointerType === 'mouse' ? null : { x: e.clientX, y: e.clientY };
   });
-  grid.addEventListener('pointercancel', () => { down = null; });
+  grid.addEventListener('pointercancel', () => {
+    down = null;
+  });
   grid.addEventListener('pointerup', (e) => {
     if (!down || e.pointerType === 'mouse') return;
     const moved = Math.hypot(e.clientX - down.x, e.clientY - down.y) > 10;
     down = null;
     const cell = cellAt(e);
     if (moved || !cell) return;
-    if (cell === pinned) { hideTip(); return; } // second toucher sur la même case : on ferme
+    if (cell === pinned) {
+      hideTip();
+      return;
+    } // second toucher sur la même case : on ferme
     hideTip();
     pinned = cell;
     pinnedScroll = scrollY;
@@ -172,8 +182,20 @@ export const initContributions = async () => {
     showTip(cell);
   });
   // Toute autre action ferme l'infobulle épinglée
-  document.addEventListener('pointerdown', (e) => { if (pinned && !cellAt(e)) hideTip(); }, { passive: true });
-  window.addEventListener('scroll', () => { if (pinned && Math.abs(scrollY - pinnedScroll) > 6) hideTip(); }, { passive: true });
+  document.addEventListener(
+    'pointerdown',
+    (e) => {
+      if (pinned && !cellAt(e)) hideTip();
+    },
+    { passive: true },
+  );
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (pinned && Math.abs(scrollY - pinnedScroll) > 6) hideTip();
+    },
+    { passive: true },
+  );
   window.addEventListener('resize', () => {
     if (innerWidth === width) return; // la barre d'adresse du téléphone qui se replie ne compte pas
     width = innerWidth;

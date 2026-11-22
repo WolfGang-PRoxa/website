@@ -5,14 +5,10 @@
   par le texte de src/i18n/<langue>.json et génère /fr/, /en/, /fr/legal/, /en/legal/ et /404.html.
 -->
 <html lang="{{ lang }}" data-theme="dark" class="no-js">
-<head>
-{{> head }}
-{{> seo }}
-</head>
-<body id="top" data-page="{{ page }}">
-{{> nav }}
-
-{{> content }}
-{{> footer }}
-</body>
+  <head>
+    {{> head }} {{> seo }}
+  </head>
+  <body id="top" data-page="{{ page }}">
+    {{> nav }} {{> content }} {{> footer }}
+  </body>
 </html>

@@ -117,10 +117,23 @@ export const initRepos = async () => {
   // 1. /api/repos : liste à jour (Function Cloudflare, en cache une heure)
   // 2. /data/repos.json : liste figée au dernier build
   // 3. l'API GitHub, depuis le navigateur
-  try { icons = await getJson<Record<string, string>>('/data/icons.json'); } catch { /* pas d'icônes */ }
+  try {
+    icons = await getJson<Record<string, string>>('/data/icons.json');
+  } catch {
+    /* pas d'icônes */
+  }
   let repos: Repo[] | null = null;
-  for (const url of ['/api/repos', '/data/repos.json', `https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&sort=pushed`]) {
-    try { repos = await getRepos(url); break; } catch { /* source suivante */ }
+  for (const url of [
+    '/api/repos',
+    '/data/repos.json',
+    `https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&sort=pushed`,
+  ]) {
+    try {
+      repos = await getRepos(url);
+      break;
+    } catch {
+      /* source suivante */
+    }
   }
   if (!repos) {
     if (!prerendered) showError();

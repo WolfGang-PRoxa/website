@@ -18,12 +18,20 @@ interface Context {
   waitUntil: (promise: Promise<unknown>) => void;
 }
 
-const json = (body: unknown, cache: string, status = 200) => new Response(JSON.stringify(body), {
-  status,
-  headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': cache, 'X-Content-Type-Options': 'nosniff' },
-});
+const json = (body: unknown, cache: string, status = 200) =>
+  new Response(JSON.stringify(body), {
+    status,
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      'Cache-Control': cache,
+      'X-Content-Type-Options': 'nosniff',
+    },
+  });
 
-interface Built { repos: RepoCounts | null; at?: string }
+interface Built {
+  repos: RepoCounts | null;
+  at?: string;
+}
 
 const built = async (env: Env, url: string): Promise<Built> => {
   try {
@@ -39,7 +47,9 @@ export const onRequestGet = async ({ request, env, waitUntil }: Context): Promis
   const fromBuild = await built(env, request.url);
   const old = fromBuild.repos;
   const cache = (caches as unknown as { default: Cache }).default;
-  const key = new Request(new URL(`/api/profile?build=${encodeURIComponent(fromBuild.at ?? '')}`, request.url).toString());
+  const key = new Request(
+    new URL(`/api/profile?build=${encodeURIComponent(fromBuild.at ?? '')}`, request.url).toString(),
+  );
   const cached = await cache.match(key);
   if (cached) return cached;
 

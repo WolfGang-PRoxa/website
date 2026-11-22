@@ -17,7 +17,11 @@ const initMotionToggle = () => {
   i18n.onChange(sync);
   button.addEventListener('click', () => {
     const paused = root.classList.toggle('is-paused');
-    try { localStorage.setItem('motion', paused ? 'paused' : 'running'); } catch { /* stockage indisponible */ }
+    try {
+      localStorage.setItem('motion', paused ? 'paused' : 'running');
+    } catch {
+      /* stockage indisponible */
+    }
     sync();
   });
 };
@@ -43,7 +47,9 @@ export const initEffects = () => {
         const y = (e.clientY - r.top - r.height / 2) * 0.35;
         btn.style.transform = `translate(${x}px, ${y}px)`;
       });
-      btn.addEventListener('pointerleave', () => { btn.style.transform = ''; });
+      btn.addEventListener('pointerleave', () => {
+        btn.style.transform = '';
+      });
     });
   }
 
@@ -72,7 +78,16 @@ export const initEffects = () => {
     track.getAnimations().forEach((a) => a.updatePlaybackRate(rate));
     frame = rate === target ? 0 : requestAnimationFrame(step);
   };
-  const easeTo = (value: number) => { target = value; if (!frame) frame = requestAnimationFrame(step); };
-  marquee.addEventListener('pointerenter', () => { marquee.classList.add('is-hovered'); easeTo(0.2); });
-  marquee.addEventListener('pointerleave', () => { marquee.classList.remove('is-hovered'); easeTo(1); });
+  const easeTo = (value: number) => {
+    target = value;
+    if (!frame) frame = requestAnimationFrame(step);
+  };
+  marquee.addEventListener('pointerenter', () => {
+    marquee.classList.add('is-hovered');
+    easeTo(0.2);
+  });
+  marquee.addEventListener('pointerleave', () => {
+    marquee.classList.remove('is-hovered');
+    easeTo(1);
+  });
 };

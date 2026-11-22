@@ -1,51 +1,84 @@
-  <a class="skip-link" href="#main" data-i18n="nav.skip">{{ nav.skip }}</a>
-  <div class="bg" aria-hidden="true">
-    <div class="bg__grid"></div>
-    <div class="bg__blob bg__blob--1"></div>
-    <div class="bg__blob bg__blob--2"></div>
-    <div class="bg__blob bg__blob--3"></div>
-    <div class="bg__noise"></div>
-  </div>
+<a class="skip-link" href="#main" data-i18n="nav.skip">{{ nav.skip }}</a>
+<div class="bg" aria-hidden="true">
+  <div class="bg__grid"></div>
+  <div class="bg__blob bg__blob--1"></div>
+  <div class="bg__blob bg__blob--2"></div>
+  <div class="bg__blob bg__blob--3"></div>
+  <div class="bg__noise"></div>
+</div>
 
-  <header class="nav">
-    <div class="nav__blur" aria-hidden="true"></div>
-    <div class="nav__inner container">
-      <a class="nav__brand" href="{{ homeHref }}" aria-label="{{ nav.home }}" data-i18n-aria="nav.home">
-        <img src="/favicon.svg" alt="" width="28" height="28">
-        <span>romainpiau<span class="accent">.dev</span></span>
-      </a>
-      <nav class="nav__links" id="nav-links" aria-label="{{ nav.label }}" data-i18n-aria="nav.label">
-        <a href="{{ base }}#projects" data-i18n="nav.projects">{{ nav.projects }}</a>
-        <a href="{{ base }}#repos" data-i18n="nav.repos">{{ nav.repos }}</a>
-        <a href="{{ base }}#stack" data-i18n="nav.stack">{{ nav.stack }}</a>
-        <a href="{{ base }}#contact" data-i18n="nav.contact">{{ nav.contact }}</a>
-      </nav>
-      <div class="nav__actions">
-        <div class="lang-switch" role="group" aria-label="{{ nav.language }}" data-i18n-aria="nav.language" data-active="{{ lang }}">
-          <a href="/fr/{{ path }}" hreflang="fr" lang="fr" data-lang="fr" class="{{ active.fr }}" title="Français">FR</a>
-          <a href="/en/{{ path }}" hreflang="en" lang="en" data-lang="en" class="{{ active.en }}" title="English">EN</a>
-        </div>
-        <button class="icon-btn" id="theme-toggle" type="button" aria-label="{{ nav.theme }}" data-i18n-aria="nav.theme">
-          <!-- Une seule icône : le disque se creuse en croissant de lune et les rayons du soleil se replient -->
-          <svg class="theme-icon" viewBox="0 0 24 24" aria-hidden="true">
-            <mask id="theme-icon-mask">
-              <rect width="24" height="24" fill="#fff"/>
-              <circle class="theme-icon__bite" cx="17.5" cy="6.5" r="7" fill="#000"/>
-            </mask>
-            <circle class="theme-icon__core" cx="12" cy="12" r="8.5" mask="url(#theme-icon-mask)"/>
-            <g class="theme-icon__rays">
-              <path d="M12 1.6v2.2"/><path d="M19.35 4.65l-1.55 1.55"/><path d="M22.4 12h-2.2"/><path d="M19.35 19.35l-1.55-1.55"/>
-              <path d="M12 22.4v-2.2"/><path d="M4.65 19.35l1.55-1.55"/><path d="M1.6 12h2.2"/><path d="M4.65 4.65l1.55 1.55"/>
-            </g>
-          </svg>
-        </button>
-        <a class="btn btn--ghost btn--sm" href="https://github.com/WolfGang-PRoxa" target="_blank" rel="noopener" aria-label="GitHub">
-          <svg viewBox="0 0 24 24" aria-hidden="true" class="gh"><path d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5z"/></svg>
-          <span>GitHub</span>
-        </a>
-        <button class="icon-btn nav__menu-btn" id="menu-toggle" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="{{ nav.menu }}" data-i18n-aria="nav.menu">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path class="menu-l1" d="M4 8h16"/><path class="menu-l2" d="M4 16h16"/></svg>
-        </button>
+<header class="nav">
+  <div class="nav__blur" aria-hidden="true"></div>
+  <div class="nav__inner container">
+    <a class="nav__brand" href="{{ homeHref }}" aria-label="{{ nav.home }}" data-i18n-aria="nav.home">
+      <img src="/favicon.svg" alt="" width="28" height="28" />
+      <span>romainpiau<span class="accent">.dev</span></span>
+    </a>
+    <nav class="nav__links" id="nav-links" aria-label="{{ nav.label }}" data-i18n-aria="nav.label">
+      <a href="{{ base }}#projects" data-i18n="nav.projects">{{ nav.projects }}</a>
+      <a href="{{ base }}#repos" data-i18n="nav.repos">{{ nav.repos }}</a>
+      <a href="{{ base }}#stack" data-i18n="nav.stack">{{ nav.stack }}</a>
+      <a href="{{ base }}#contact" data-i18n="nav.contact">{{ nav.contact }}</a>
+    </nav>
+    <div class="nav__actions">
+      <div
+        class="lang-switch"
+        role="group"
+        aria-label="{{ nav.language }}"
+        data-i18n-aria="nav.language"
+        data-active="{{ lang }}"
+      >
+        <a href="/fr/{{ path }}" hreflang="fr" lang="fr" data-lang="fr" class="{{ active.fr }}" title="Français">FR</a>
+        <a href="/en/{{ path }}" hreflang="en" lang="en" data-lang="en" class="{{ active.en }}" title="English">EN</a>
       </div>
+      <button class="icon-btn" id="theme-toggle" type="button" aria-label="{{ nav.theme }}" data-i18n-aria="nav.theme">
+        <!-- Une seule icône : le disque se creuse en croissant de lune et les rayons du soleil se replient -->
+        <svg class="theme-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <mask id="theme-icon-mask">
+            <rect width="24" height="24" fill="#fff" />
+            <circle class="theme-icon__bite" cx="17.5" cy="6.5" r="7" fill="#000" />
+          </mask>
+          <circle class="theme-icon__core" cx="12" cy="12" r="8.5" mask="url(#theme-icon-mask)" />
+          <g class="theme-icon__rays">
+            <path d="M12 1.6v2.2" />
+            <path d="M19.35 4.65l-1.55 1.55" />
+            <path d="M22.4 12h-2.2" />
+            <path d="M19.35 19.35l-1.55-1.55" />
+            <path d="M12 22.4v-2.2" />
+            <path d="M4.65 19.35l1.55-1.55" />
+            <path d="M1.6 12h2.2" />
+            <path d="M4.65 4.65l1.55 1.55" />
+          </g>
+        </svg>
+      </button>
+      <a
+        class="btn btn--ghost btn--sm"
+        href="https://github.com/WolfGang-PRoxa"
+        target="_blank"
+        rel="noopener"
+        aria-label="GitHub"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true" class="gh">
+          <path
+            d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5z"
+          />
+        </svg>
+        <span>GitHub</span>
+      </a>
+      <button
+        class="icon-btn nav__menu-btn"
+        id="menu-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="nav-links"
+        aria-label="{{ nav.menu }}"
+        data-i18n-aria="nav.menu"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path class="menu-l1" d="M4 8h16" />
+          <path class="menu-l2" d="M4 16h16" />
+        </svg>
+      </button>
     </div>
-  </header>
+  </div>
+</header>

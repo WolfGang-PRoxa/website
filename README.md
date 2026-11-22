@@ -1,4 +1,4 @@
-# romainpiau.dev 
+# romainpiau.dev
 
 [![Français](https://img.shields.io/badge/langue-Fran%C3%A7ais-0366d6)](README.fr.md)
 
@@ -16,18 +16,18 @@ It showcases my featured projects and lists all my public GitHub repositories, w
 
 ## Project structure
 
-| Path | Contents |
-| --- | --- |
-| `src/pages/` | Pages (`home`, `legal`, `404`) and the shared layout (`_layout.html`), with `{{ key }}` placeholders for the text |
-| `src/partials/` | Shared pieces: `<head>`, navigation bar, footer |
-| `src/i18n/` | Translations (`en.json`, `fr.json`) |
-| `src/main.ts`, `src/modules/`, `src/lib/` | Scripts: theme, language switch, menu, scroll animations, repositories… |
-| `src/styles/` | Styles |
-| `public/` | Files served as is: icons, social images, `robots.txt`, `llms.txt`, `_headers`, `_routes.json` |
-| `scripts/pages.ts` | Vite plugin: renders every page in each language with my public repositories and project versions, then writes the sitemap and the CSP |
-| `functions/index.ts` | Picks the language for `/` (FR / EN choice first, then country, English by default) |
-| `functions/_middleware.ts` | Redirects `www.romainpiau.dev` and `romainpiau.pages.dev` to `romainpiau.dev` |
-| `functions/api/` | `/api/repos` (repositories, refreshed hourly) and `/api/contributions` (GitHub calendar) |
+| Path                                      | Contents                                                                                                                               |
+| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/pages/`                              | Pages (`home`, `legal`, `404`) and the shared layout (`_layout.html`), with `{{ key }}` placeholders for the text                      |
+| `src/partials/`                           | Shared pieces: `<head>`, navigation bar, footer                                                                                        |
+| `src/i18n/`                               | Translations (`en.json`, `fr.json`)                                                                                                    |
+| `src/main.ts`, `src/modules/`, `src/lib/` | Scripts: theme, language switch, menu, scroll animations, repositories…                                                                |
+| `src/styles/`                             | Styles                                                                                                                                 |
+| `public/`                                 | Files served as is: icons, social images, `robots.txt`, `llms.txt`, `_headers`, `_routes.json`                                         |
+| `scripts/pages.ts`                        | Vite plugin: renders every page in each language with my public repositories and project versions, then writes the sitemap and the CSP |
+| `functions/index.ts`                      | Picks the language for `/` (FR / EN choice first, then country, English by default)                                                    |
+| `functions/_middleware.ts`                | Redirects `www.romainpiau.dev` and `romainpiau.pages.dev` to `romainpiau.dev`                                                          |
+| `functions/api/`                          | `/api/repos` (repositories, refreshed hourly) and `/api/contributions` (GitHub calendar)                                               |
 
 ## Run it locally
 
@@ -49,12 +49,12 @@ The dev server opens on `/en/` and `/fr/`. The automatic language detection only
 
 Every push to `main` is deployed to Cloudflare Pages automatically, and every other branch gets its own preview URL.
 
-| Setting | Value |
-| --- | --- |
-| Framework preset | None |
-| Build command | `sh build.sh` |
-| Build output directory | `dist` |
-| Root directory | *(empty)* |
+| Setting                | Value         |
+| ---------------------- | ------------- |
+| Framework preset       | None          |
+| Build command          | `sh build.sh` |
+| Build output directory | `dist`        |
+| Root directory         | _(empty)_     |
 
 The Pages project must be linked to this repository (Settings › Builds › Git repository). If the repository is recreated, link it again: the next push starts the builds again.
 

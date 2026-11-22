@@ -34,7 +34,10 @@ const get = async <T = GithubUser>(url: string, token?: string): Promise<T> => {
 const countPrivate = async (token: string): Promise<number> => {
   let n = 0;
   for (let page = 1; page <= 10; page++) {
-    const list = await get<unknown[]>(`https://api.github.com/user/repos?visibility=private&affiliation=owner&per_page=100&page=${page}`, token);
+    const list = await get<unknown[]>(
+      `https://api.github.com/user/repos?visibility=private&affiliation=owner&per_page=100&page=${page}`,
+      token,
+    );
     n += list.length;
     if (list.length < 100) break;
   }
@@ -52,7 +55,11 @@ export const repoCounts = async (user: string, token?: string): Promise<RepoCoun
       if (me.login.toLowerCase() === user.toLowerCase()) {
         let priv = me.owned_private_repos ?? me.total_private_repos ?? null;
         if (priv === null) {
-          try { priv = await countPrivate(token); } catch (err) { auth = `liste des dépôts privés refusée (${(err as Error).message})`; }
+          try {
+            priv = await countPrivate(token);
+          } catch (err) {
+            auth = `liste des dépôts privés refusée (${(err as Error).message})`;
+          }
         }
         return { public: me.public_repos, private: priv, auth };
       }

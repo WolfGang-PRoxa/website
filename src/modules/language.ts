@@ -14,7 +14,9 @@ const LANG_PREFIX = /^\/(fr|en)\//;
 
 // Textes de <head> propres à la page (les autres pages complètent ceux de l'accueil)
 const pageMeta = (dict: Dict): Dict['meta'] => {
-  const extra = { legal: (dict.legal as { meta?: object })?.meta, 404: (dict.notFound as { meta?: object })?.meta }[page];
+  const extra = { legal: (dict.legal as { meta?: object })?.meta, 404: (dict.notFound as { meta?: object })?.meta }[
+    page
+  ];
   return { ...dict.meta, ...(extra || {}) };
 };
 
@@ -23,12 +25,28 @@ const pathIn = (lang: string) => location.pathname.replace(LANG_PREFIX, `/${lang
 
 // Fondu flouté sur les textes qui changent
 const fade = (els: Element[], out: boolean) =>
-  Promise.all(els.map((el) => el.animate(
-    out
-      ? [{ opacity: 1, filter: 'blur(0)' }, { opacity: 0, filter: 'blur(6px)' }]
-      : [{ opacity: 0, filter: 'blur(6px)' }, { opacity: 1, filter: 'blur(0)' }],
-    { duration: out ? 180 : 380, easing: out ? 'ease-in' : 'cubic-bezier(.22, 1, .36, 1)', fill: out ? 'forwards' : 'none' },
-  ).finished.catch(() => undefined)));
+  Promise.all(
+    els.map((el) =>
+      el
+        .animate(
+          out
+            ? [
+                { opacity: 1, filter: 'blur(0)' },
+                { opacity: 0, filter: 'blur(6px)' },
+              ]
+            : [
+                { opacity: 0, filter: 'blur(6px)' },
+                { opacity: 1, filter: 'blur(0)' },
+              ],
+          {
+            duration: out ? 180 : 380,
+            easing: out ? 'ease-in' : 'cubic-bezier(.22, 1, .36, 1)',
+            fill: out ? 'forwards' : 'none',
+          },
+        )
+        .finished.catch(() => undefined),
+    ),
+  );
 
 const setMeta = (selector: string, attr: string, value: string) => $(selector)?.setAttribute(attr, value);
 
@@ -109,16 +127,21 @@ export const initLanguage = () => {
       switchTo(link, true);
     });
     // Précharge le dictionnaire dès le survol pour un changement instantané
-    link.addEventListener('pointerenter', () => {
-      if (link.dataset.lang !== i18n.lang) loadDict(link.dataset.lang!).catch(() => undefined);
-    }, { once: true });
+    link.addEventListener(
+      'pointerenter',
+      () => {
+        if (link.dataset.lang !== i18n.lang) loadDict(link.dataset.lang!).catch(() => undefined);
+      },
+      { once: true },
+    );
   });
 
   // Page 404 : dans la langue choisie auparavant, celle de l'adresse demandée ou celle du navigateur
   if (isNotFound) {
-    const wanted = /(?:^|;\s*)lang=([a-z]{2})/.exec(document.cookie)?.[1]
-      || LANG_PREFIX.exec(location.pathname)?.[1]
-      || (navigator.language || '').slice(0, 2).toLowerCase();
+    const wanted =
+      /(?:^|;\s*)lang=([a-z]{2})/.exec(document.cookie)?.[1] ||
+      LANG_PREFIX.exec(location.pathname)?.[1] ||
+      (navigator.language || '').slice(0, 2).toLowerCase();
     const link = links.find((l) => l.dataset.lang === wanted);
     if (link) switchTo(link, false, false);
   }

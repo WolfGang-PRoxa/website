@@ -10,7 +10,16 @@ import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, writeFi
 import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname, join, relative, resolve } from 'node:path';
 import type { Plugin, ResolvedConfig } from 'vite';
-import { downloadUrl, escapeHtml, filterChipsHtml, isDownloadable, repoCardHtml, slimRepo, timeAgo, visibleRepos } from '../src/lib/repo-card.ts';
+import {
+  downloadUrl,
+  escapeHtml,
+  filterChipsHtml,
+  isDownloadable,
+  repoCardHtml,
+  slimRepo,
+  timeAgo,
+  visibleRepos,
+} from '../src/lib/repo-card.ts';
 import { latestRelease, versionLabel } from '../src/lib/releases.ts';
 import { repoCounts, repoSplit, repoTotal, type RepoCounts } from '../src/lib/repo-counts.ts';
 import type { ClientDict, Repo } from '../src/types.ts';
@@ -60,14 +69,18 @@ const get = (obj: unknown, path: string): unknown =>
   path.split('.').reduce<unknown>((o, k) => (o == null ? undefined : (o as Dict)[k]), obj);
 
 const partials = (src: string): Record<string, string> =>
-  Object.fromEntries(readdirSync(join(src, 'partials'))
-    .filter((f) => f.endsWith('.html'))
-    .map((f) => [f.slice(0, -5), readFileSync(join(src, 'partials', f), 'utf8').replace(/\n$/, '')]));
+  Object.fromEntries(
+    readdirSync(join(src, 'partials'))
+      .filter((f) => f.endsWith('.html'))
+      .map((f) => [f.slice(0, -5), readFileSync(join(src, 'partials', f), 'utf8').replace(/\n$/, '')]),
+  );
 
 const fill = (template: string, ctx: Dict, where: string): string =>
   template
     .replace(/<!--[\s\S]*?-->\n?/, '') // commentaire d'en-tête du modèle
-    .replace(/\{\{\s*json:([\w.]+)\s*\}\}/g, (_, key: string) => JSON.stringify(get(ctx, key) ?? {}).replace(/</g, '\\u003c'))
+    .replace(/\{\{\s*json:([\w.]+)\s*\}\}/g, (_, key: string) =>
+      JSON.stringify(get(ctx, key) ?? {}).replace(/</g, '\\u003c'),
+    )
     .replace(/\{\{\s*([\w.]+)\s*\}\}/g, (_, key: string) => {
       const value = get(ctx, key);
       if (typeof value !== 'string') throw new Error(`Texte manquant « ${key} » (${where})`);
@@ -75,7 +88,10 @@ const fill = (template: string, ctx: Dict, where: string): string =>
     });
 
 export const languages = (src: string): string[] =>
-  readdirSync(join(src, 'i18n')).filter((f) => f.endsWith('.json')).map((f) => f.slice(0, -5)).sort();
+  readdirSync(join(src, 'i18n'))
+    .filter((f) => f.endsWith('.json'))
+    .map((f) => f.slice(0, -5))
+    .sort();
 
 /** Données calculées au build et écrites dans les pages */
 interface BuildData {
@@ -94,11 +110,12 @@ const buildContext = (data: BuildData, client: ClientDict) => {
   const download: Record<string, string> = {};
   for (const [key, { repo, fallback }] of Object.entries(data.featured)) {
     const r = data.repos?.find((x) => x.name === repo);
-    release[key] = r?.release ? versionLabel(r.release.tag) : fallback ?? '';
+    release[key] = r?.release ? versionLabel(r.release.tag) : (fallback ?? '');
     const url = downloadUrl({ html_url: r?.html_url ?? `https://github.com/${data.githubUser}/${repo}` });
-    download[key] = r && isDownloadable(r)
-      ? `<a class="link-arrow" href="${escapeHtml(url)}" target="_blank" rel="noopener" data-i18n="client.download">${escapeHtml(client.download || 'Download')}</a>`
-      : '';
+    download[key] =
+      r && isDownloadable(r)
+        ? `<a class="link-arrow" href="${escapeHtml(url)}" target="_blank" rel="noopener" data-i18n="client.download">${escapeHtml(client.download || 'Download')}</a>`
+        : '';
   }
   const skeleton = '<div class="repo card skeleton"></div>'.repeat(3);
   return {
@@ -166,9 +183,21 @@ export const renderPages = (src: string, site: string, data: BuildData): Record<
 
 // Emplacements courants d'une icône dans un dépôt
 const ICON_CANDIDATES = [
-  'build/icon.png', 'app/build/icon.png', 'branding/icon.svg', 'icon.png', 'icon.svg', 'logo.png', 'logo.svg',
-  'assets/icon.png', 'assets/logo.png', 'resources/icon.png',
-  'public/icon.png', 'public/logo.png', 'src/assets/icon.png', '.github/icon.png', 'docs/icon.png',
+  'build/icon.png',
+  'app/build/icon.png',
+  'branding/icon.svg',
+  'icon.png',
+  'icon.svg',
+  'logo.png',
+  'logo.svg',
+  'assets/icon.png',
+  'assets/logo.png',
+  'resources/icon.png',
+  'public/icon.png',
+  'public/logo.png',
+  'src/assets/icon.png',
+  '.github/icon.png',
+  'docs/icon.png',
 ];
 
 const githubHeaders = (): Record<string, string> => ({
@@ -190,40 +219,75 @@ const repoIconFiles = new Map<string, Buffer>();
 const findRepoIcon = async (repo: Repo): Promise<string | null> => {
   for (const path of ICON_CANDIDATES) {
     try {
-      const res = await fetch(`https://raw.githubusercontent.com/${repo.full_name}/HEAD/${path}`, { signal: AbortSignal.timeout(10000) });
+      const res = await fetch(`https://raw.githubusercontent.com/${repo.full_name}/HEAD/${path}`, {
+        signal: AbortSignal.timeout(10000),
+      });
       if (!res.ok) continue;
       const buf = Buffer.from(await res.arrayBuffer());
       if (buf.length > 1_500_000) continue; // trop lourd pour une vignette
       const file = `${repo.name}.${path.split('.').pop()}`;
       repoIconFiles.set(file, buf);
       return `/data/icons/${file}`;
-    } catch { /* emplacement suivant */ }
+    } catch {
+      /* emplacement suivant */
+    }
   }
   return null;
 };
 
-const loadBuildData = async ({ githubUser, iconsDir, featured, site }: Options, build: boolean, log: (msg: string) => void): Promise<BuildData> => {
+const loadBuildData = async (
+  { githubUser, iconsDir, featured, site }: Options,
+  build: boolean,
+  log: (msg: string) => void,
+): Promise<BuildData> => {
   // 1. icônes choisies à la main (prioritaires)
   const icons: Record<string, string> = {};
   for (const file of existsSync(iconsDir) ? readdirSync(iconsDir) : []) {
     const m = /^(.+)\.(webp|png|svg)$/.exec(file);
     // ?v=<empreinte> : une icône remplacée s'affiche tout de suite malgré le cache (une semaine) de /icons/
-    if (m) icons[m[1]] = `/icons/${file}?v=${createHash('sha256').update(readFileSync(join(iconsDir, file))).digest('hex').slice(0, 8)}`;
+    if (m)
+      icons[m[1]] = `/icons/${file}?v=${createHash('sha256')
+        .update(readFileSync(join(iconsDir, file)))
+        .digest('hex')
+        .slice(0, 8)}`;
   }
 
   // 2. dépôts publics : API GitHub, sinon la liste du site en ligne (dernier build réussi)
   let repos: Repo[] | null = null;
   try {
-    const all = await getJson<Repo[]>(`https://api.github.com/users/${githubUser}/repos?per_page=100&sort=pushed`, githubHeaders());
+    const all = await getJson<Repo[]>(
+      `https://api.github.com/users/${githubUser}/repos?per_page=100&sort=pushed`,
+      githubHeaders(),
+    );
     repos = all.filter((r) => !r.fork && !r.private && !r.archived).map(slimRepo);
-    if (build) await Promise.all(repos.map(async (r) => { r.icon = icons[r.name] || (await findRepoIcon(r)); }));
-    else repos.forEach((r) => { r.icon = icons[r.name] || null; });
-    log(`Dépôts GitHub : ${repos.length} (icônes : ${repos.filter((r) => r.icon).map((r) => r.name).join(', ') || 'aucune'})`);
+    if (build)
+      await Promise.all(
+        repos.map(async (r) => {
+          r.icon = icons[r.name] || (await findRepoIcon(r));
+        }),
+      );
+    else
+      repos.forEach((r) => {
+        r.icon = icons[r.name] || null;
+      });
+    log(
+      `Dépôts GitHub : ${repos.length} (icônes : ${
+        repos
+          .filter((r) => r.icon)
+          .map((r) => r.name)
+          .join(', ') || 'aucune'
+      })`,
+    );
   } catch (err) {
     try {
       // Les icônes trouvées par l'ancien build ne seront pas republiées : on ne garde que les nôtres
-      repos = (await getJson<Repo[]>(`${site}/data/repos.json`)).map((r) => ({ ...slimRepo(r), icon: icons[r.name] || null }));
-      log(`API GitHub indisponible (${(err as Error).message}) : liste reprise du site en ligne (${repos.length} dépôts).`);
+      repos = (await getJson<Repo[]>(`${site}/data/repos.json`)).map((r) => ({
+        ...slimRepo(r),
+        icon: icons[r.name] || null,
+      }));
+      log(
+        `API GitHub indisponible (${(err as Error).message}) : liste reprise du site en ligne (${repos.length} dépôts).`,
+      );
     } catch {
       log(`API GitHub indisponible (${(err as Error).message}) : la page chargera les dépôts depuis le navigateur.`);
     }
@@ -231,21 +295,31 @@ const loadBuildData = async ({ githubUser, iconsDir, featured, site }: Options, 
 
   // 3. dernière release de chaque dépôt (bouton « Télécharger » quand elle a des fichiers)
   if (repos) {
-    await Promise.all(repos.map(async (r) => {
-      const release = await latestRelease(r.full_name, process.env.GITHUB_TOKEN);
-      if (release !== undefined) r.release = release;
-    }));
+    await Promise.all(
+      repos.map(async (r) => {
+        const release = await latestRelease(r.full_name, process.env.GITHUB_TOKEN);
+        if (release !== undefined) r.release = release;
+      }),
+    );
     const unknown = repos.filter((r) => r.release === undefined).length;
     const downloads = repos.filter(isDownloadable).map((r) => `${r.name} ${r.release!.tag}`);
-    log(`Releases téléchargeables : ${downloads.join(', ') || 'aucune'}${unknown ? ` (${unknown} dépôt(s) sans réponse de GitHub)` : ''}`);
+    log(
+      `Releases téléchargeables : ${downloads.join(', ') || 'aucune'}${unknown ? ` (${unknown} dépôt(s) sans réponse de GitHub)` : ''}`,
+    );
   }
 
   // 4. nombre de dépôts (privés compris avec le jeton du compte), sinon ceux du site en ligne
   let counts = await repoCounts(githubUser, process.env.GITHUB_TOKEN);
   if (!counts) {
-    try { counts = (await getJson<{ repos: RepoCounts | null }>(`${site}/data/profile.json`)).repos; } catch { /* inconnu */ }
+    try {
+      counts = (await getJson<{ repos: RepoCounts | null }>(`${site}/data/profile.json`)).repos;
+    } catch {
+      /* inconnu */
+    }
   }
-  log(`Nombre de dépôts : ${counts ? `${counts.public} publics, ${counts.private ?? '?'} privés (jeton : ${counts.auth ?? '?'})` : 'inconnu'}`);
+  log(
+    `Nombre de dépôts : ${counts ? `${counts.public} publics, ${counts.private ?? '?'} privés (jeton : ${counts.auth ?? '?'})` : 'inconnu'}`,
+  );
 
   return { repos, counts, icons, featured, githubUser };
 };
@@ -254,7 +328,8 @@ const loadBuildData = async ({ githubUser, iconsDir, featured, site }: Options, 
 
 const htmlFiles = (dir: string): string[] =>
   readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
-    e.isDirectory() ? htmlFiles(join(dir, e.name)) : e.name.endsWith('.html') ? [join(dir, e.name)] : []);
+    e.isDirectory() ? htmlFiles(join(dir, e.name)) : e.name.endsWith('.html') ? [join(dir, e.name)] : [],
+  );
 
 /** Empreintes SHA-256 des scripts écrits dans les pages (hors données JSON) */
 const inlineScriptHashes = (out: string): string[] => {
@@ -270,12 +345,16 @@ const inlineScriptHashes = (out: string): string[] => {
 
 const sitemap = (site: string, langs: string[]) => {
   const today = new Date().toISOString().slice(0, 10);
-  const urls = PAGES.filter((p) => !p.single && !p.noindex).flatMap((p) => langs.map((lang) => `  <url>
+  const urls = PAGES.filter((p) => !p.single && !p.noindex).flatMap((p) =>
+    langs.map(
+      (lang) => `  <url>
     <loc>${site}/${lang}/${p.path}</loc>
     <lastmod>${today}</lastmod>
 ${langs.map((l) => `    <xhtml:link rel="alternate" hreflang="${l}" href="${site}/${l}/${p.path}"/>`).join('\n')}
     <xhtml:link rel="alternate" hreflang="x-default" href="${p.path ? `${site}/en/${p.path}` : `${site}/`}"/>
-  </url>`));
+  </url>`,
+    ),
+  );
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${urls.join('\n')}
@@ -347,7 +426,10 @@ export default function sitePages(options: Options): Plugin {
       await mkdir(join(out, 'data', 'icons'), { recursive: true });
       await writeFile(join(out, 'data', 'icons.json'), JSON.stringify(data.icons));
       if (data.repos) await writeFile(join(out, 'data', 'repos.json'), JSON.stringify(data.repos));
-      await writeFile(join(out, 'data', 'profile.json'), JSON.stringify({ repos: data.counts, at: new Date().toISOString() }));
+      await writeFile(
+        join(out, 'data', 'profile.json'),
+        JSON.stringify({ repos: data.counts, at: new Date().toISOString() }),
+      );
       for (const [file, buf] of repoIconFiles) await writeFile(join(out, 'data', 'icons', file), buf);
 
       await writeFile(join(out, 'sitemap.xml'), sitemap(options.site, languages(src)));
@@ -356,7 +438,8 @@ export default function sitePages(options: Options): Plugin {
       const headersFile = join(out, '_headers');
       const hashes = inlineScriptHashes(out);
       const headers = readFileSync(headersFile, 'utf8');
-      if (!headers.includes('__CSP_SCRIPT_HASHES__')) throw new Error('_headers : marqueur __CSP_SCRIPT_HASHES__ introuvable');
+      if (!headers.includes('__CSP_SCRIPT_HASHES__'))
+        throw new Error('_headers : marqueur __CSP_SCRIPT_HASHES__ introuvable');
       writeFileSync(headersFile, headers.replace('__CSP_SCRIPT_HASHES__', hashes.join(' ')));
       log(`CSP : ${hashes.length} script(s) en ligne autorisé(s)`);
     },

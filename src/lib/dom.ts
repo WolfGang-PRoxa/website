@@ -1,8 +1,9 @@
 export const $ = <E extends Element = HTMLElement>(selector: string, root: ParentNode = document): E | null =>
   root.querySelector<E>(selector);
 
-export const $$ = <E extends Element = HTMLElement>(selector: string, root: ParentNode = document): E[] =>
-  [...root.querySelectorAll<E>(selector)];
+export const $$ = <E extends Element = HTMLElement>(selector: string, root: ParentNode = document): E[] => [
+  ...root.querySelectorAll<E>(selector),
+];
 
 export const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 

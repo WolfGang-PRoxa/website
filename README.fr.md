@@ -16,18 +16,18 @@ On y trouve mes projets phares et la liste de tous mes dépôts GitHub publics, 
 
 ## Organisation
 
-| Chemin | Contenu |
-| --- | --- |
-| `src/pages/` | Pages (`home`, `legal`, `404`) et mise en page commune (`_layout.html`), avec des repères `{{ clé }}` pour les textes |
-| `src/partials/` | Morceaux communs : `<head>`, barre de navigation, pied de page |
-| `src/i18n/` | Traductions (`en.json`, `fr.json`) |
-| `src/main.ts`, `src/modules/`, `src/lib/` | Scripts : thème, changement de langue, menu, animations au défilement, dépôts… |
-| `src/styles/` | Styles |
-| `public/` | Fichiers servis tels quels : icônes, images de partage, `robots.txt`, `llms.txt`, `_headers`, `_routes.json` |
-| `scripts/pages.ts` | Plugin Vite : génère les pages dans chaque langue, y écrit mes dépôts publics et les versions des projets, puis le plan du site et la CSP |
-| `functions/index.ts` | Choisit la langue de `/` (choix FR / EN d'abord, puis pays, anglais par défaut) |
-| `functions/_middleware.ts` | Redirige `www.romainpiau.dev` et `romainpiau.pages.dev` vers `romainpiau.dev` |
-| `functions/api/` | `/api/repos` (dépôts à jour à l'heure près) et `/api/contributions` (calendrier GitHub) |
+| Chemin                                    | Contenu                                                                                                                                   |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/pages/`                              | Pages (`home`, `legal`, `404`) et mise en page commune (`_layout.html`), avec des repères `{{ clé }}` pour les textes                     |
+| `src/partials/`                           | Morceaux communs : `<head>`, barre de navigation, pied de page                                                                            |
+| `src/i18n/`                               | Traductions (`en.json`, `fr.json`)                                                                                                        |
+| `src/main.ts`, `src/modules/`, `src/lib/` | Scripts : thème, changement de langue, menu, animations au défilement, dépôts…                                                            |
+| `src/styles/`                             | Styles                                                                                                                                    |
+| `public/`                                 | Fichiers servis tels quels : icônes, images de partage, `robots.txt`, `llms.txt`, `_headers`, `_routes.json`                              |
+| `scripts/pages.ts`                        | Plugin Vite : génère les pages dans chaque langue, y écrit mes dépôts publics et les versions des projets, puis le plan du site et la CSP |
+| `functions/index.ts`                      | Choisit la langue de `/` (choix FR / EN d'abord, puis pays, anglais par défaut)                                                           |
+| `functions/_middleware.ts`                | Redirige `www.romainpiau.dev` et `romainpiau.pages.dev` vers `romainpiau.dev`                                                             |
+| `functions/api/`                          | `/api/repos` (dépôts à jour à l'heure près) et `/api/contributions` (calendrier GitHub)                                                   |
 
 ## Lancer en local
 
@@ -49,12 +49,12 @@ Le serveur de développement répond sur `/fr/` et `/en/`. La détection automat
 
 Chaque push sur `main` est déployé automatiquement sur Cloudflare Pages, et chaque autre branche a sa propre adresse d'aperçu.
 
-| Réglage | Valeur |
-| --- | --- |
-| Framework preset | None |
-| Build command | `sh build.sh` |
-| Build output directory | `dist` |
-| Root directory | *(vide)* |
+| Réglage                | Valeur        |
+| ---------------------- | ------------- |
+| Framework preset       | None          |
+| Build command          | `sh build.sh` |
+| Build output directory | `dist`        |
+| Root directory         | _(vide)_      |
 
 Le projet Pages doit être relié à ce dépôt (Settings › Builds › Git repository). Si le dépôt est recréé, il faut le relier à nouveau : le prochain push relance alors les builds.
 

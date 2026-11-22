@@ -24,10 +24,15 @@ interface Context {
   waitUntil: (promise: Promise<unknown>) => void;
 }
 
-const json = (body: string, cache: string, status = 200) => new Response(body, {
-  status,
-  headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': cache, 'X-Content-Type-Options': 'nosniff' },
-});
+const json = (body: string, cache: string, status = 200) =>
+  new Response(body, {
+    status,
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      'Cache-Control': cache,
+      'X-Content-Type-Options': 'nosniff',
+    },
+  });
 
 /** Liste du dernier build, et sa version (ETag du fichier) pour la clé de cache */
 const staticList = async (env: Env, url: string): Promise<{ list: Repo[]; version: string }> => {
@@ -70,10 +75,12 @@ export const onRequestGet = async ({ request, env, waitUntil }: Context): Promis
     const changed = repos
       .filter((r) => before.get(r.name)?.pushed_at !== r.pushed_at || r.release === undefined)
       .slice(0, MAX_RELEASE_CHECKS);
-    await Promise.all(changed.map(async (r) => {
-      const release = await latestRelease(r.full_name, env.GITHUB_TOKEN);
-      if (release !== undefined) r.release = release;
-    }));
+    await Promise.all(
+      changed.map(async (r) => {
+        const release = await latestRelease(r.full_name, env.GITHUB_TOKEN);
+        if (release !== undefined) r.release = release;
+      }),
+    );
 
     const response = json(JSON.stringify(repos), `public, max-age=600, s-maxage=${TTL}`);
     waitUntil(cache.put(key, response.clone()));

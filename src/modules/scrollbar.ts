@@ -40,7 +40,9 @@ export const initScrollbar = () => {
     const ratio = scrollable > 0 ? Math.min(1, Math.max(0, scrollY / scrollable)) : 0;
     thumb.style.transform = `translateY(${ratio * range}px)`;
   };
-  const schedule = () => { if (!frame) frame = requestAnimationFrame(place); };
+  const schedule = () => {
+    if (!frame) frame = requestAnimationFrame(place);
+  };
 
   const wake = () => {
     bar.classList.add('is-active');
@@ -52,18 +54,35 @@ export const initScrollbar = () => {
 
   measure();
   place();
-  addEventListener('scroll', () => { schedule(); wake(); }, { passive: true });
-  addEventListener('resize', () => { measure(); schedule(); });
+  addEventListener(
+    'scroll',
+    () => {
+      schedule();
+      wake();
+    },
+    { passive: true },
+  );
+  addEventListener('resize', () => {
+    measure();
+    schedule();
+  });
   // La hauteur de la page change (dépôts chargés, changement de langue…)
-  new ResizeObserver(() => { measure(); schedule(); }).observe(document.body);
+  new ResizeObserver(() => {
+    measure();
+    schedule();
+  }).observe(document.body);
 
   // Souris : la barre apparaît près du bord droit
-  addEventListener('pointermove', (e) => {
-    if (e.pointerType !== 'mouse') return;
-    const near = e.clientX >= root.clientWidth - EDGE;
-    bar.classList.toggle('is-near', near);
-    if (near) wake();
-  }, { passive: true });
+  addEventListener(
+    'pointermove',
+    (e) => {
+      if (e.pointerType !== 'mouse') return;
+      const near = e.clientX >= root.clientWidth - EDGE;
+      bar.classList.toggle('is-near', near);
+      if (near) wake();
+    },
+    { passive: true },
+  );
   document.addEventListener('pointerleave', () => bar.classList.remove('is-near'));
 
   // Saisie du curseur
@@ -83,7 +102,10 @@ export const initScrollbar = () => {
   thumb.addEventListener('pointermove', (e) => {
     if (bar.classList.contains('is-dragging')) scrollToPointer(e.clientY);
   });
-  const release = () => { bar.classList.remove('is-dragging'); wake(); };
+  const release = () => {
+    bar.classList.remove('is-dragging');
+    wake();
+  };
   thumb.addEventListener('pointerup', release);
   thumb.addEventListener('pointercancel', release);
 
@@ -94,6 +116,9 @@ export const initScrollbar = () => {
     grab = thumbH / 2;
     const top = bar.getBoundingClientRect().top;
     const ratio = range > 0 ? (e.clientY - top - grab) / range : 0;
-    window.scrollTo({ top: Math.min(1, Math.max(0, ratio)) * scrollable, behavior: reduceMotion ? 'instant' : 'smooth' });
+    window.scrollTo({
+      top: Math.min(1, Math.max(0, ratio)) * scrollable,
+      behavior: reduceMotion ? 'instant' : 'smooth',
+    });
   });
 };

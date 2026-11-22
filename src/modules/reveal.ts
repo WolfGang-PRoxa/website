@@ -19,7 +19,9 @@ const items: Item[] = [];
 let frame = 0;
 let lastTime = performance.now();
 
-const request = () => { if (!frame) frame = requestAnimationFrame(update); };
+const request = () => {
+  if (!frame) frame = requestAnimationFrame(update);
+};
 
 function update(now: number) {
   frame = 0;
@@ -45,7 +47,10 @@ function update(now: number) {
   items.forEach((it, idx) => {
     const target = targets[idx];
     if (target == null) return;
-    if (now < it.start) { moving = true; return; }
+    if (now < it.start) {
+      moving = true;
+      return;
+    }
     let p = it.snap ? target : it.p + (target - it.p) * k;
     it.snap = false;
     if (Math.abs(target - p) < 0.002) p = target;
@@ -65,7 +70,10 @@ function update(now: number) {
 
 /** Ajoute un élément à animer. `snap` : pas d'animation d'entrée (ex. contenu remplacé). */
 export const addReveal = (el: HTMLElement, delay = 0, snap = false) => {
-  if (reduceMotion) { el.classList.add('is-static'); return; }
+  if (reduceMotion) {
+    el.classList.add('is-static');
+    return;
+  }
   const i = Math.min(parseFloat(getComputedStyle(el).getPropertyValue('--i')) || 0, 3);
   items.push({ el, p: 0, y: SHIFT, i, snap, start: performance.now() + delay });
   request();

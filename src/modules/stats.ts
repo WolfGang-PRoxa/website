@@ -9,7 +9,10 @@ import { repoSplit, repoTotal, type RepoCounts } from '../lib/repo-counts';
 const running = new WeakMap<HTMLElement, number>();
 
 const animateCount = (el: HTMLElement, target: number, from = 0) => {
-  if (reduceMotion || from === target) { el.textContent = String(target); return; }
+  if (reduceMotion || from === target) {
+    el.textContent = String(target);
+    return;
+  }
   const id = (running.get(el) ?? 0) + 1;
   running.set(el, id);
   const start = performance.now();
@@ -28,8 +31,12 @@ const initRepoCounts = async () => {
   if (!total || !split) return;
 
   let counts: RepoCounts | null = null;
-  const show = () => { split.textContent = repoSplit(counts, i18n.t); };
-  i18n.onChange(() => { if (counts) show(); });
+  const show = () => {
+    split.textContent = repoSplit(counts, i18n.t);
+  };
+  i18n.onChange(() => {
+    if (counts) show();
+  });
 
   for (const url of ['/api/profile', '/data/profile.json']) {
     try {
@@ -37,7 +44,9 @@ const initRepoCounts = async () => {
       if (!res.ok) continue;
       counts = ((await res.json()) as { repos: RepoCounts | null }).repos;
       if (counts) break;
-    } catch { /* source suivante */ }
+    } catch {
+      /* source suivante */
+    }
   }
   if (!counts) return; // on garde les chiffres écrits au build
   const target = Number(repoTotal(counts));
