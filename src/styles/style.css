@@ -1695,11 +1695,12 @@ html.has-scrollbar::-webkit-scrollbar {
   -webkit-mask-image: linear-gradient(to bottom, #000 50%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 50%, transparent 100%);
 }
-/* Bandeau « Ma stack » : capturé à part, son groupe suit en direct le défilement du bandeau.
-   Les deux images se partagent le cercle (positions mises à jour à chaque image par le script),
+/* Bandeau « Ma stack » : capturé à part et en pause pendant l'onde, pour que ses deux images restent
+   calées (en défilant, il se désynchronisait sur Safari). Les deux images se partagent le cercle,
    et le groupe reprend le fondu des bords du bandeau. Il reste sous la barre de navigation. */
 .theme-switching.vt-stack .marquee__track {
   view-transition-name: stack-track;
+  animation-play-state: paused;
 }
 ::view-transition-group(stack-track) {
   animation: none;

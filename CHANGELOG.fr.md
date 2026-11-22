@@ -18,7 +18,7 @@ Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 
 ### Corrections
 
-- Le bandeau défilant de la stack ne saute plus sur le côté pendant l'animation du thème jour / nuit.
+- Le bandeau défilant de la stack ne saute plus sur le côté pendant l'animation du thème jour / nuit : il se met en pause le temps de l'animation.
 
 ## [2.0.0] - 2026-11-22
 
